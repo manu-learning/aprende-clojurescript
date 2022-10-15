@@ -1,0 +1,8 @@
+* Referencias
+** Referencias Oficiales
+   1. [[https://clojurescript.org/community/libraries][ClojureScript libraries (clojurescript.org)]]
+** Referencias Extraoficiales
+   1. [[https://github.com/hantuzun/awesome-clojurescript][List of Clojurescript frameworks, libraries and wrappers]]
+** Bibliotecas + Frameworks
+   1. [[https://reagent-project.github.io/][Reagent, minimalistic react for clojurescript]]
+   2. [[https://github.com/slagyr/speclj][Speclj, TDD/BDD framework for clojure]]
