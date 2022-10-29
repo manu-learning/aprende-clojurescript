@@ -1,15 +1,16 @@
 NAMESPACE=learn-cljs
 DIR_PROJECTS=projects
-PROJECT_DEFAULT=weather
+DEFAULT_PROJECT=weather
+
 NAME=$(NAMESPACE)/$(PROJECT_DEFAULT)
 TEMPLATE=figwheel-main
 
-new:
+fn figwheel-new:
 	cd $(DIR_PROJECTS) && \
-	clj -X:project/new :template $(TEMPLATE) :name $(NAME) :args '["+deps" "--reagent"]'
+	clj -X:project/new :template $(TEMPLATE) :name $(NAMESPACE)/$(DEFAULT_PROJECT) :args '["+deps" "--reagent"]'
 
-build:
-	cd $(DIR_PROJECTS)/$(PROJECT_DEFAULT) && \
-	clj -A:fig:build
+fb figwheel-build:
+	cd $(DIR_PROJECTS)/$(DEFAULT_PROJECT) && \
+	clj -M:fig:build
 
-.PHONY: new build
+.PHONY: fn figwheel-new fb figwheel-build
