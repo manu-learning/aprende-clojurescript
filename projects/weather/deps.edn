@@ -2,7 +2,7 @@
         org.clojure/clojurescript {:mvn/version "1.11.4"}
         cljsjs/react {:mvn/version "17.0.2-0"}
         cljsjs/react-dom {:mvn/version "17.0.2-0"}
-        reagent/reagent {:mvn/version "1.1.1" }}
+        reagent/reagent {:mvn/version "1.1.1"}}
  :paths ["src" "resources"]
  :aliases {:fig {:extra-deps
                  {com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
@@ -11,4 +11,7 @@
                  :extra-paths ["target" "test"]}
            :build {:main-opts ["-m" "figwheel.main" "-b" "dev" "-r"]}
            :min   {:main-opts ["-m" "figwheel.main" "-O" "advanced" "-bo" "dev"]}
-           :test  {:main-opts ["-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "learn-cljs.test-runner"]}}}
+           :test  {:main-opts ["-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "learn-cljs.test-runner"]}
+           :cider-cljs {:main-opts
+                        ["-m" "nrepl.cmdline" "--middleware"
+                         "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}}}
