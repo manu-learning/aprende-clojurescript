@@ -3,3 +3,21 @@
 #+BEGIN_QUOTE
 No es un juego en si, sólo proyecto sólo con el objetivo de aprender y jugar con la tecnología.
 #+END_QUOTE
+
+#+BEGIN_COMMENT
+pendiente validar/reordenar referencias
+https://practical.li/clojurescript/clojurescript-examples/buttons.html
+https://stackoverflow.com/questions/30361492/idiomatic-way-to-select-a-map-in-vector-by-a-key
+https://github.com/jonase/reagent-tutorial
+https://tailwindcss.com/docs/object-fit
+https://codepen.io/robstinson/pen/GRjLooj?editors=1000
+https://practical.li/clojurescript/figwheel-main-projects/simple.html#deps
+
+para las animaciones
+https://todoxampp.com/efecto-maquina-de-escribir-con-css/
+https://blog.logrocket.com/creating-custom-animations-tailwind-css/
+https://www.w3schools.com/css/css3_animations.asp
+https://www.w3schools.com/css/tryit.asp?filename=trycss3_animation5
+https://tailwindcss.com/docs/animation
+https://tailwindcss.com/docs/installation/play-cdn
+#+END_COMMENT
