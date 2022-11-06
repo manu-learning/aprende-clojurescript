@@ -51,10 +51,19 @@
 (defn limpiar-bitacora []
   (swap! app-state assoc :bitacoras []))
 
+(defn modo-interactivo? []
+  (= (get-in @app-state [:escenario :interaccion]) true))
+
+(defn usando-bitacora? []
+  (= (get-in @app-state [:escenario :nombre]) :bitacora))
+
 ;; Componentes UI
 (defn foto-de-tripulante [nombre]
   [:img {:src (str "images/tripulacion/" nombre ".jpg")
          :class "object-contain h-36"}])
+
+(defn foto-asistente-del-escenario []
+  [:span (foto-de-tripulante (get-in @app-state [:escenario :asistente]))])
 
 (defn terminal-escribir
   ([mensaje animacion]
@@ -72,13 +81,16 @@
    (map #(-> % :titulo terminal-escribir) (bitacora))
    [:span {:class "animate-blink border-r-4 border-indigo-600"} " "]])
 
+(defn dialogo-escenario-actual []
+  [:span (get-in @app-state [:escenario :dialogo])])
+
 (defn escenario-interactivo []
   [:div {:class "w-full h-96 max-w-screen-sm bg-gray-900 p-1 rounded-xl ring-8 ring-white ring-opacity-40"}
    [:div {:class "flex justify-between"}
     [:div {:class "flex flex-col"}
-     (if (= (get-in @app-state [:escenario :nombre]) :bitacora)
+     (if (usando-bitacora?)
        [escribir-bitacora]
-       [terminal-escribir (get-in @app-state [:escenario :dialogo]) :blink])]]])
+       [terminal-escribir (dialogo-escenario-actual) :blink])]]])
 
 (defn escenario-estatico [nombre]
   [:div {:class "w-full max-w-screen-sm bg-gray-600 p-10 rounded-xl ring-8 ring-white ring-opacity-40"}
@@ -86,7 +98,7 @@
     [:div {:class "flex flex-col"}
      [:h1 {:class "text-4xl font-bold"} (get-in @app-state [:escenario :titulo])]
      [:span (get-in @app-state [:escenario :dialogo])]]
-    [foto-de-tripulante (get-in @app-state [:escenario :asistente])]]])
+    [foto-asistente-del-escenario]]])
 
 ;; TODO: Refactor, si hubieran varios comandos, repitiríamos el css
 (defn boton-mision []
@@ -121,7 +133,7 @@
 (defn app []
   [:div {:class "flex flex-col items-center justify-center w-screen min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 text-white"}
    [:h1  {:class "mb-10 text-6xl font-bold w-full text-center"} (:game @app-state)]
-   (if (get-in @app-state [:escenario :interaccion])
+   (if (modo-interactivo?)
      [escenario-interactivo]
      [escenario-estatico])
    [menu-de-comando]])
