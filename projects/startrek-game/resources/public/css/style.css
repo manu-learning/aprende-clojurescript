@@ -1,2 +1,14 @@
-/* some style */
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
 
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
