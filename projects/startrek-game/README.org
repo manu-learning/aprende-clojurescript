@@ -1,0 +1,5 @@
+#+TITLE: Startrek Game
+* Objetivo
+#+BEGIN_QUOTE
+No es un juego en si, sólo proyecto sólo con el objetivo de aprender y jugar con la tecnología.
+#+END_QUOTE
