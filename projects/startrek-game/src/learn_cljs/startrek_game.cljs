@@ -41,7 +41,8 @@
          (conj (bitacora) bitacora-nueva)))
 
 (defn escenario-detalle [nombre]
-  (first (filter #(= (% :nombre) nombre) escenarios)))
+  (first
+   (filter #(= (% :nombre) nombre) escenarios)))
 
 (defn control-de-mando [opcion]
   (agregar-bitacora (escenario-detalle opcion))
@@ -57,13 +58,13 @@
 (defn usando-bitacora? []
   (= (get-in @app-state [:escenario :nombre]) :bitacora))
 
+(defn escenario-actual [key]
+  (get-in @app-state [:escenario key]))
+
 ;; Componentes UI
 (defn foto-de-tripulante [nombre]
   [:img {:src (str "images/tripulacion/" nombre ".jpg")
          :class "object-contain h-36"}])
-
-(defn foto-asistente-del-escenario []
-  [:span (foto-de-tripulante (get-in @app-state [:escenario :asistente]))])
 
 (defn terminal-escribir
   ([mensaje animacion]
@@ -76,13 +77,10 @@
 
 (defn escribir-bitacora []
   [:p
-   [terminal-escribir (get-in @app-state [:escenario :dialogo])]
+   [terminal-escribir (escenario-actual :dialogo)]
    ;;(map (fn [elem] (-> elem :titulo terminal-escribir )) (bitacora))
    (map #(-> % :titulo terminal-escribir) (bitacora))
    [:span {:class "animate-blink border-r-4 border-indigo-600"} " "]])
-
-(defn dialogo-escenario-actual []
-  [:span (get-in @app-state [:escenario :dialogo])])
 
 (defn escenario-interactivo []
   [:div {:class "w-full h-96 max-w-screen-sm bg-gray-900 p-1 rounded-xl ring-8 ring-white ring-opacity-40"}
@@ -90,15 +88,15 @@
     [:div {:class "flex flex-col"}
      (if (usando-bitacora?)
        [escribir-bitacora]
-       [terminal-escribir (dialogo-escenario-actual) :blink])]]])
+       [terminal-escribir (escenario-actual :dialogo) :blink])]]])
 
 (defn escenario-estatico [nombre]
   [:div {:class "w-full max-w-screen-sm bg-gray-600 p-10 rounded-xl ring-8 ring-white ring-opacity-40"}
    [:div {:class "flex justify-between"}
     [:div {:class "flex flex-col"}
-     [:h1 {:class "text-4xl font-bold"} (get-in @app-state [:escenario :titulo])]
-     [:span (get-in @app-state [:escenario :dialogo])]]
-    [foto-asistente-del-escenario]]])
+     [:h1 {:class "text-4xl font-bold"} (escenario-actual :titulo)]
+     [:span (escenario-actual :dialogo)]]
+    (foto-de-tripulante (escenario-actual :asistente))]])
 
 ;; TODO: Refactor, si hubieran varios comandos, repitiríamos el css
 (defn boton-mision []
