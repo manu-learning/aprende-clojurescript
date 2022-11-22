@@ -1,51 +1,42 @@
-NAMESPACE=learn-cljs
-DIR_PROJECTS=projects
-TEMPLATE=figwheel-main
+-include utils.mk
 
+##@ Aplicaciones con API Rest
 # macro automática $@
 # - nos anticipamos si luego cambiamos el target
-create-weather-app:
+create-weather-app: ##
 	$(call figwheel-create-project,$@)
 #	$(call figwheel-create-project,weather-app)
 
-build-weather-app:
-	$(call figwheel-build,$@)
-
-create-trello-app:
+create-trello-app: ##
 	$(call figwheel-create-project,$@)
 
-build-trello-app:
+build-weather-app: ##
 	$(call figwheel-build,$@)
 
-create-startrek-game:
+build-trello-app: ##
+	$(call figwheel-build,$@)
+
+##@ Juegos interactivos
+create-startrek-game: ##
 	$(call figwheel-create-project,$@)
 
-build-startrek-game:
+build-startrek-game: ##
 	$(call figwheel-build,$@)
 
-# definimos funciones propias
-# - para evitar lógica repetida
-# - las llamadas deben ser de la forma $(call nombre-funcion,param1,param2,...)
-# - obtenemos los parámetros en el mismo orden que se pasaron $(1) $(2) ..
-#
-# función primitiva subst de GNU Make
-# - Ej. $(subt patron,nuevaCadena,texto)
-define figwheel-create-project
-	cd $(DIR_PROJECTS) && \
-	clj -X:project/new \
-		:template $(TEMPLATE) \
-		:name $(NAMESPACE)/$(subst create-,,$(1)) \
-		:args '["+deps" "--reagent"]'
-endef
+##@ Otros
+create-interoperability-with-js: ##
+	$(call figwheel-create-project,$@)
 
-define figwheel-build
-	cd $(DIR_PROJECTS)/$(subst build-,,$(1)) && \
-	clj -M:fig:build
-endef
+build-interoperability-with-js: ##
+	$(call figwheel-build,$@)
+
+##@ Utilidades
+h help: ## Mostrar menú de ayuda
+	@awk 'BEGIN {FS = ":.*##"; printf "\nOpciones para usar:\n  make \033[36m\033[0m\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 # TODO: feature
 test:
 	read -p "Ingresar el nombre del proyecto: " nombre;\
 	echo "proyecto ingresado: " $$nombre
 
-.PHONY: test create-weather-app build-weather-app create-trello-app build-trello-app create-startrek-game build-startrek-game
+.PHONY: h help test create-weather-app build-weather-app create-trello-app build-trello-app create-startrek-game build-startrek-game create-interoperability-with-js build-interoperability-with-js
