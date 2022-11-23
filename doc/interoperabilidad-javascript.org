@@ -1,0 +1,7 @@
+* Referencias
+** Referencias Oficiales
+   1. [[https://clojurescript.org/reference/compiler-options][ClojureScript, Compiler Options (clojurescript.org)]]
+   2. [[https://clojurescript.org/reference/dependencies][ClojureScript, dependencies (clojurescript.org)]]
+** Referencias Extraoficiales
+   1. [[http://lukevanderhart.com/2011/09/30/using-javascript-and-clojurescript.html][Using JavaScript libraries in ClojureScript (lukevanderhart.com)]]
+   2. [[https://gist.github.com/jmlsf/f41b46c43a31224f46a41b361356f04d][Using Javascript modules in ClojureScript (by jmlsf)]]

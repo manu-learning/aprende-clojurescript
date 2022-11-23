@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="https://clojurescript.org/images/cljs-logo-icon-32.png">
+    <!-- para probar función nativa de clojure (js->clj) -->
+    <script type="text/javascript" src="js/scoresFixture.js"><script>
   </head>
   <body>
+      <script type="text/javascript">
+       goog.provide('scores');
+      </script>
     <div id="app">
     </div> <!-- end of app div -->
     <script src="cljs-out/dev-main.js" type="text/javascript"></script>
