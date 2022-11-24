@@ -1,4 +1,170 @@
-* Referencias
+#+TITLE: Interoperabilidad entre ClojureScript y JavaScript
+* Cambiar Namespace via REPL
+  #+BEGIN_SRC sh
+    # en la REPL cambiar el namespace por default con siguiente..
+    (ns learn-cljs.interoperability-with-js)
+  #+END_SRC
+* Convertir Código ClojureScript a JavaScript
+** Conceptos
+   - ~clj->js~ convierte una estructura de ClojureScript a JavaScript
+   - ~js->clj~ convierte un objeto Javascript en una estructura de ClojureScript
+** Ejemplo
+    #+BEGIN_SRC clojure
+      ;; definimos en clojure un vector con estructuras map como elementos
+      (def personajes [{:id 1 :nombre "Hisoka"}
+                       {:id 2 :nombre "Gon"}
+                       {:id 9 :nombre "Killua"}
+                       {:id 15 :nombre "Kurapika"}])
+
+      ;; clj->js
+      ;; - transformamos código Clojure a un objeto JavaScript
+      (def personajes-js (clj->js personajes))
+    #+END_SRC
+* Operaciones sobre objetos Javascript
+** Conceptos
+   - ~#js~ crea objetos en JavaScript con pares ordenados de la forma ~clave~ ~valor~
+   - ~.-~ seguido del nombre del atributo, obtiene el valor de un atributo asociado a un objeto JavaScript
+** Crear Objeto
+   #+BEGIN_SRC clojure
+     ;; #js
+     ;; - definimos un objeto en JavaScript
+     (def cazador
+       #js {"id" 1
+            "nombre" "Cazador X",
+            "rango" "Desconocido",
+            "edad" 18})
+
+     ;; definimos otro objeto en JavaScript
+     (def presidente-cazadores
+       #js {"id" 1
+            "nombre" "Isaac Netero",
+            "rango" "Presidente de Asociación de Cazadores",
+            "edad" 110,
+            "habilidades" ["fuerza superhumana"
+                           "velocidad"
+                           "resistencia"],
+            "nen" {"tipo" "intensificación",
+                   "poderes" ["Primera Mano"
+                              "Tercera Mano"
+                              "100-Tipo de Guanyin"]}})
+   #+END_SRC
+** Acceder a atributos
+   #+BEGIN_SRC clojure
+     ;; #js
+     ;; - definimos un objeto en JavaScript
+     (def cazador
+       #js {"id" 1
+            "nombre" "Isaac Netero",
+            "rango" "Presidente de Asociación de Cazadores",
+            "edad" 110})
+
+     ;; .-nombreAtributo
+     ;; - obtenemos el valor asociado a un atributo de un objeto javascript con .-
+     (def edad-cazador
+       (.-edad cazador))
+   #+END_SRC
+** TODO Acceder a estructuras anidadas
+   #+BEGIN_COMMENT
+   NO funciona, devuelve nil
+   #+END_COMMENT
+
+   #+BEGIN_SRC clojure
+     ;; definimos otro objeto en JavaScript
+     (def presidente-cazadores
+       #js {"id" 1
+            "nombre" "Isaac Netero",
+            "rango" "Presidente de Asociación de Cazadores",
+            "edad" 110,
+            "nen" {"tipo" "intensificación",
+                   "poderes" ["Primera Mano"
+                              "Tercera Mano"
+                              "100-Tipo de Guanyin"]}})
+
+     (println
+      (.. presidente-cazadores -nen -tipo))
+   #+END_SRC
+* Operaciones sobre arrays JavaScript
+** Conceptos
+   - ~[]~ crea una estructura array lo usamos en combinación con ~#js~
+   - ~aget~ obtiene un elemento de un array de JavaScript por su posición
+   - ~aset~ cambia un elemento de un array de JavaScript por su posición
+   - ~.~ seguido del nombre de una función primitiva de JavaScript que queramos usar
+** Crear array
+   #+BEGIN_SRC clojure
+     ;; #js
+     ;; - definimos en javascript un array
+     (def examen-cazador #js ["Fase Preliminar"
+                              "Primera Fase"
+                              "Un juego a Medianoche"
+                              "Tercera Fase"
+                              "Cuarta Fase"
+                              "Fase Final"])
+   #+END_SRC
+** aget
+   #+BEGIN_SRC clojure
+     ;; - definimos en javascript un array
+     (def examen-cazador #js ["Fase Preliminar"
+                              "Primera Fase"
+                              "Segunda Fase"
+                              "Fase Final"])
+     ;; aget
+     ;; - obtenemos un elemento de un array de javascript
+     (def primera-fase-examen-cazador
+       (aget examen-cazador 0))
+   #+END_SRC
+** aset
+   #+BEGIN_SRC clojure
+     ;; - definimos en javascript un array
+     (def examen-cazador #js ["Fase Preliminar"
+                              "Primera Fase"
+                              "Segunda Fase"
+                              "Fase Final"])
+     ;; aset
+     ;; - generamos efecto de lado sobre un array de javascript, cambiando el valor de un elemento,
+     ;; - si una variable está bindeada/vinculada a un objeto javascript, entonces puede mutar (por tanto no es inmutable..)
+     (defn renombrar-fase-examen [numero-fase nuevo-nombre]
+       (aset examen-cazador numero-fase nuevo-nombre))
+   #+END_SRC
+** Funciones primitivas de JavaScript
+   #+BEGIN_SRC clojure
+     ;; - definimos en javascript un array
+     (def examen-cazador #js ["Fase Preliminar"
+                              "Primera Fase"
+                              "Segunda Fase"
+                              "Fase Final"])
+
+     ;; .nombreFuncionJavascript
+     ;; - usamos métodos/funciones primitivas de javascript con arrays (de javascript)
+     (def numero-de-etapa-final-examen-cazador
+       (.indexOf examen-cazador "Fase Final"))
+   #+END_SRC
+* Ejemplos Integradores
+** Ejemplo 1
+   #+BEGIN_SRC clojure
+     ;; #js
+     ;; - definimos un objeto en JavaScript
+     (def presidente-cazadores
+       #js {"id" 1
+            "nombre" "Isaac Netero",
+            "rango" "Presidente de Asociación de Cazadores",
+            "edad" 110,
+            "habilidades" ["fuerza superhumana"
+                           "velocidad"
+                           "resistencia"],
+            "nen" {"tipo" "intensificación",
+                   "poderes" ["Primera Mano"
+                              "Tercera Mano"
+                              "100-Tipo de Guanyin"]}})
+
+     ;; js->clj
+     ;; - transformamos un objeto javascript a clojure, para usar las operaciones propias de clojure
+     ;; - se suele sugerir esto para aprovechar la inmutabilidad característica de Clojure
+     (def habilidades-presidente-cazadores
+       (map
+        (fn [habilidad] (str "habilidad: " habilidad))
+        (js->clj (.-habilidades presidente-cazadores))))
+   #+END_SRC
+* TODO Referencias
 ** Referencias Oficiales
    1. [[https://clojurescript.org/reference/compiler-options][ClojureScript, Compiler Options (clojurescript.org)]]
    2. [[https://clojurescript.org/reference/dependencies][ClojureScript, dependencies (clojurescript.org)]]
