@@ -2,6 +2,13 @@
 * Namespaces
   - ~goog.dom~ provee funciones para manipular el DOM (/Ej. createElement, appendChild, ../)
   - ~goog.events~ provee funciones para escuchar y manejar eventos (/Ej. keyup/)
+
+  #+BEGIN_QUOTE
+  Para facilitar el uso de los namespaces de la biblioteca Closure de Google
+  usamos la función ~(require)~ y una keyword especial ~:as~ con el nombre que queramos llamar al namespace
+
+  ~(require '[goog.dom :as gdom]~
+  #+END_QUOTE
 * Manipular el DOM
 ** Obtener elementos
 *** Wrappers de Funciones Nativas de Javascript
@@ -19,6 +26,8 @@
 *** Ejemplos
 **** Ejemplo 1 - Obtener elementos con funciones nativas de javascript
       #+BEGIN_SRC clojure
+        (:require [goog.dom :as gdom])
+
         ;; js/document
         ;; - obtenemos el DOM (se lo pasaremos por parámetro al querySelector)
         (def body (.querySelector js/document "#bienvenida"))
@@ -28,6 +37,8 @@
       #+END_SRC
 **** Ejemplo 2 - Obtener elementos con getElement
    #+BEGIN_SRC clojure
+     (:require [goog.dom :as gdom])
+
      (def nombre (gdom/getElement "nombre"))
    #+END_SRC
 ** Crear elementos
@@ -36,6 +47,8 @@
       - Crea y devuelve un elemento con el nombre del *tag* que le pasamos
 *** Ejemplo
     #+BEGIN_SRC clojure
+      (:require [goog.dom :as gdom])
+
       (def titulo (gdom/createElement "h1"))
       (def parrafo (gdom/createElement "p"))
     #+END_SRC
@@ -44,6 +57,8 @@
     - La firma es de la forma ~setTextContent(elemento, texto)~
 *** Ejemplo
     #+BEGIN_SRC clojure
+      (:require [goog.dom :as gdom])
+
       (def titulo (gdom/createElement "h1"))
       (def parrafo (gdom/createElement "p"))
 
@@ -55,6 +70,8 @@
     - ~.-~ es una función de clojureScript para obtener el *valor asociado a un atributo de un objeto js*
 *** Ejemplo
     #+BEGIN_SRC clojure
+      (:require [goog.dom :as gdom])
+
       (def field-nombre (gdom/getElement "field-nombre"))
       (def nombre (gdom/getElement "nombre"))
 
@@ -66,6 +83,8 @@
     - La firma es de la forma ~appendChild(elemento-padre, elemento-hijo)~
 *** Ejemplo
     #+BEGIN_SRC clojure
+      (:require [goog.dom :as gdom])
+
       (def bienvenida (.querySelector js/document "#bienvenida"))
       (def titulo (gdom/createElement "h1"))
       (def parrafo (gdom/createElement "p"))
@@ -76,6 +95,8 @@
 ** Eliminar Elemento
 *** Ejemplo
      #+BEGIN_SRC clojure
+       (:require [goog.dom :as gdom])
+
        (def bienvenida (.querySelector js/document "#bienvenida"))
        (def titulo (gdom/createElement "h1"))
        (def parrafo (gdom/createElement "p"))
@@ -92,6 +113,8 @@
     - El *objeto javascript* que pasamos por 2º parámetro toma la misma forma que una *estructura map de clojure* ~{:a 1 :b 3}~
 *** Ejemplo
     #+BEGIN_SRC clojure
+      (:require [goog.dom :as gdom])
+
       (def titulo (gdom/createElement "h1"))
 
       (gdom/setProperties titulo #js {"style" "color:red;"
@@ -109,6 +132,9 @@
       #+END_QUOTE
 *** Ejemplo
     #+BEGIN_SRC clojure
+      (:require [goog.dom :as gdom]
+                [goog.events :as gevents])
+
       (defn actualizar-nombre [evento]
         (gdom/setTextContent nombre
                              (.. evento -currentTarget -value)))
@@ -117,6 +143,44 @@
                       "keyup"
                       actualizar-nombre)
     #+END_SRC
+* Ejemplos Integradores
+** Ejemplo 1 - Validar Campos de Contraseña
+   #+BEGIN_SRC clojure
+     (:require [goog.dom :as gdom]
+               [goog.events :as gevents])
+
+     (defn passwords-fields-coinciden? [password1 password2]
+       (= (.-value password1)
+          (.-value password2)))
+
+     ;; distintas versiones que fuimos haciendo refactor
+     (defn validar-password-v1 [password repassword estado-validacion]
+       (if (not= (.-value password) (.-value repassword))
+         (gdom/setTextContent estado-validacion "Las contraseñas no coinciden :(")
+         (gdom/setTextContent estado-validacion "Las contraseñas coinciden OK :)")))
+
+     (defn validar-password-v2 [password repassword estado-validacion]
+       (gdom/setTextContent estado-validacion
+                            (if (not= (.-value password) (.-value repassword))
+                              "Las contraseñas no coinciden"
+                              "Las contraseñas coinciden OK")))
+
+     (defn validar-password-v3 [password repassword estado-validacion]
+       (gdom/setTextContent estado-validacion
+                            (if (passwords-fields-coinciden? password repassword)
+                              "Las contraseñas coinciden :)"
+                              "Las contraseñas NO coinciden >:(")))
+
+     ;; macro #
+     ;; - para crear una función anónima corta sin nombre y pasar los parámetros que necesita la función que maneja el evento
+     (let [password (gdom/getElement "field-password")
+           repassword (gdom/getElement "field-repassword")
+           estado-validacion (gdom/getElement "estado-validacion-password")]
+       (gevents/listen password "keyup"
+                       #(validar-password-v3 password repassword estado-validacion))
+       (gevents/listen repassword "keyup"
+                       #(validar-password-v3 password repassword estado-validacion)))
+   #+END_SRC
 * Referencias
 ** Referencias Oficiales
    1. [[https://developers.google.com/closure/library][Closure Library (developers.google.com)]]
