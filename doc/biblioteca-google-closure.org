@@ -1,0 +1,123 @@
+#+TITLE: Google Closure Library
+* Namespaces
+  - ~goog.dom~ provee funciones para manipular el DOM (/Ej. createElement, appendChild, ../)
+  - ~goog.events~ provee funciones para escuchar y manejar eventos (/Ej. keyup/)
+* Manipular el DOM
+** Obtener elementos
+*** Wrappers de Funciones Nativas de Javascript
+**** .querySelector
+     - Es una *función nativa de javascript* que expone clojurescript
+     - Obteniene el primer elemento del DOM que coincida
+     - Usamos ~#~ para capturar por el atributo id de un elemento del DOM
+     - usamos ~.~ para capturar por el atributo class de un elemento del DOM
+**** .getElementById
+     - Es una *función nativa de javascript* que expone clojurescript
+     - Obteniene un elemento del DOM que contenga ese valor en su atributo id
+     - El namespace ~goog.dom~ tiene ~getElement(id-del-elemento)~ como *función wrapper* que facilita su invocación
+*** getElement
+    - Obtiene un elemento del DOM como un *objeto javascript*
+*** Ejemplos
+**** Ejemplo 1 - Obtener elementos con funciones nativas de javascript
+      #+BEGIN_SRC clojure
+        ;; js/document
+        ;; - obtenemos el DOM (se lo pasaremos por parámetro al querySelector)
+        (def body (.querySelector js/document "#bienvenida"))
+
+        (def field-apodo (.getElementById js/document "field-apodo"))
+        (def apodo (.getElementById js/document "apodo"))
+      #+END_SRC
+**** Ejemplo 2 - Obtener elementos con getElement
+   #+BEGIN_SRC clojure
+     (def nombre (gdom/getElement "nombre"))
+   #+END_SRC
+** Crear elementos
+*** createElement
+      - La firma es de la forma ~createElement(nombre-tag)~
+      - Crea y devuelve un elemento con el nombre del *tag* que le pasamos
+*** Ejemplo
+    #+BEGIN_SRC clojure
+      (def titulo (gdom/createElement "h1"))
+      (def parrafo (gdom/createElement "p"))
+    #+END_SRC
+** Modificar contenido de Elementos
+*** setContext
+    - La firma es de la forma ~setTextContent(elemento, texto)~
+*** Ejemplo
+    #+BEGIN_SRC clojure
+      (def titulo (gdom/createElement "h1"))
+      (def parrafo (gdom/createElement "p"))
+
+      (gdom/setTextContent titulo "Cuenta de Acceso Premium")
+      (gdom/setTextContent parrafo "Estas en la sección premium")
+    #+END_SRC
+** Obtener el valor de campos de texto (input)
+*** (.-) función de ClojureScript
+    - ~.-~ es una función de clojureScript para obtener el *valor asociado a un atributo de un objeto js*
+*** Ejemplo
+    #+BEGIN_SRC clojure
+      (def field-nombre (gdom/getElement "field-nombre"))
+      (def nombre (gdom/getElement "nombre"))
+
+      (gdom/setTextContent nombre
+                           (.-value field-nombre))
+    #+END_SRC
+** Anidar elementos
+*** appendChild
+    - La firma es de la forma ~appendChild(elemento-padre, elemento-hijo)~
+*** Ejemplo
+    #+BEGIN_SRC clojure
+      (def bienvenida (.querySelector js/document "#bienvenida"))
+      (def titulo (gdom/createElement "h1"))
+      (def parrafo (gdom/createElement "p"))
+
+      (gdom/appendChild bienvenida titulo)
+      (gdom/appendChild bienvenida parrafo)
+    #+END_SRC
+** Eliminar Elemento
+*** Ejemplo
+     #+BEGIN_SRC clojure
+       (def bienvenida (.querySelector js/document "#bienvenida"))
+       (def titulo (gdom/createElement "h1"))
+       (def parrafo (gdom/createElement "p"))
+
+       ;; appendChild(elemento-padre, elemento-hijo)
+       (gdom/appendChild bienvenida titulo)
+       (gdom/appendChild bienvenida parrafo)
+
+       (gdom/removeNode bienvenida)
+     #+END_SRC
+** Cambiar propiedades de un elemento
+*** setProperties
+    - La firma es de la forma ~setProperties(elemento, objeto javascript con las propiedades como pares ordenados de la forma propiedad-valor)~
+    - El *objeto javascript* que pasamos por 2º parámetro toma la misma forma que una *estructura map de clojure* ~{:a 1 :b 3}~
+*** Ejemplo
+    #+BEGIN_SRC clojure
+      (def titulo (gdom/createElement "h1"))
+
+      (gdom/setProperties titulo #js {"style" "color:red;"
+                                      "class" "big-titulo"})
+    #+END_SRC
+* Escuchar y Manejar Eventos
+** Crear Eventos
+*** listen
+     - La firma es de la forma ~listen(elemento observado, tipo de evento a escuchar/observar, función que invocará cada vez que ocurra el evento escuchado/observado)~
+     - La función pasada como 3º parámetro, recibe 1 parámetro (el elemento como un evento)
+*** (..) función de clojurescript
+      #+BEGIN_QUOTE
+      Podemos usar ~..~ que es una función de clojurescript para acceder a un objeto javascript con estructuras anidadas
+      por ejemplo ~(.. persona -datos -nombre)~
+      #+END_QUOTE
+*** Ejemplo
+    #+BEGIN_SRC clojure
+      (defn actualizar-nombre [evento]
+        (gdom/setTextContent nombre
+                             (.. evento -currentTarget -value)))
+
+      (gevents/listen field-nombre
+                      "keyup"
+                      actualizar-nombre)
+    #+END_SRC
+* Referencias
+** Referencias Oficiales
+   1. [[https://developers.google.com/closure/library][Closure Library (developers.google.com)]]
+   2. [[https://google.github.io/closure-library/develop/get-started][Getting Started with Closure Library (google.github.io)]]
