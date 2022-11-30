@@ -27,7 +27,13 @@ build-startrek-game: ##
 create-interoperability-with-js: ##
 	$(call figwheel-create-project,$@)
 
+create-google-closure: ##
+	$(call figwheel-create-project,$@)
+
 build-interoperability-with-js: ##
+	$(call figwheel-build,$@)
+
+build-google-closure: ##
 	$(call figwheel-build,$@)
 
 ##@ Utilidades
