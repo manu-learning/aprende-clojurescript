@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="https://clojurescript.org/images/cljs-logo-icon-32.png">
+  </head>
+  <body>
+    <div id="app">
+        <div id="bienvenida"></div>
+
+        <div class="formulario">
+            <p>
+                <label for="field-nombre">Escriba su nombre</label>
+                <input id="field-nombre" type="text" value="Carlitos" />
+            </p>
+
+            <p>
+                <label for="field-apodo">Escriba su apodo</label>
+                <input id="field-apodo" type="text" value="Teve" />
+            </p>
+
+
+            <p>
+                <label for="field-password">Contraseña</label>
+                <input id="field-password" type="text" />
+            </p>
+
+            <p>
+                <label for="field-repassword">Repetir Contraseña</label>
+                <input id="field-repassword" type="text" />
+            </p>
+
+            <p id="estado-validacion-password"></p>
+        </div>
+
+        <p>Bienvenido.. <span id="nombre" ></span>, asi que tu apodo es <span id="apodo"></span> que interesante!</p>
+    </div> <!-- end of app div -->
+    <script src="cljs-out/dev-main.js" type="text/javascript"></script>
+  </body>
+</html>
