@@ -16,6 +16,13 @@ build-weather-app: ##
 build-trello-app: ##
 	$(call figwheel-build,$@)
 
+##@ Pequeñas Aplicaciones
+create-temperature-converter: ##
+	$(call figwheel-create-project,$@)
+
+build-temperature-converter: ##
+	$(call figwheel-build,$@)
+
 ##@ Juegos interactivos
 create-startrek-game: ##
 	$(call figwheel-create-project,$@)
