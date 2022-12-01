@@ -16,19 +16,28 @@
 ;;
 ;; createElement(nombre-tag)
 ;; - función de goog.dom, crea/devuelve un elemento con el nombre del tag que le pasamos
-(def titulo (gdom/createElement "h1"))
-(def parrafo (gdom/createElement "p"))
+;;
+;; defonce
+;; - asegura que las variables se definen y evalúan una única vez
+;; (fundamental porque createElement+appendChild generan Side Effect, creando+insertando elementos en el DOM cada vez que actualicemos el código fuente)
+(defonce titulo (gdom/createElement "h1"))
+(defonce parrafo (gdom/createElement "p"))
 
 ;; setTextContent(elemento, texto)
 (gdom/setTextContent titulo "Cuenta de Acceso Premium")
 (gdom/setTextContent parrafo "Estas en la sección premium")
 
-
 ;; appendChild(elemento-padre, elemento-hijo)
-(comment "
-  (gdom/appendChild body titulo)
-  (gdom/appendChild body parrafo)
-")
+
+(defn bienvenida-loaded? []
+  (do
+    (gdom/appendChild body titulo)
+    (gdom/appendChild body parrafo)))
+
+(bienvenida-loaded?)
+
+;; (gdom/appendChild body titulo)
+;; (gdom/appendChild body parrafo)
 
 ;; (gdom/removeNode body)
 

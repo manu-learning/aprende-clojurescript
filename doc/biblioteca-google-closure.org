@@ -41,16 +41,40 @@
 
      (def nombre (gdom/getElement "nombre"))
    #+END_SRC
-** Crear elementos
+** Crear Elementos + Anidar/Insertar elementos
+*** defonce
+    - ~defonce~ es propio de clojureScript
+    - Asegura que las variables se definen y evalúan una única vez
+
+    #+BEGIN_QUOTE
+    Si combinamos ~createElement~ y ~appendChild~ que generamos *Side Effect* (/modifica el DOM en particular appendChild/),
+    porque creamos e insertamos elementos en el DOM cada vez que actualicemos el código fuente de nuestra aplicación.
+
+    Entonces definimos las variables con ~defonce~ si lo anterior es un comportamiento no deseado que queremos evitar.
+    #+END_QUOTE
 *** createElement
       - La firma es de la forma ~createElement(nombre-tag)~
       - Crea y devuelve un elemento con el nombre del *tag* que le pasamos
+*** appendChild
+    - La firma es de la forma ~appendChild(elemento-padre, elemento-hijo)~
 *** Ejemplo
     #+BEGIN_SRC clojure
       (:require [goog.dom :as gdom])
 
-      (def titulo (gdom/createElement "h1"))
-      (def parrafo (gdom/createElement "p"))
+      (def bienvenida (.querySelector js/document "#bienvenida"))
+      (defonce titulo (gdom/createElement "h1"))
+      (defonce parrafo (gdom/createElement "p"))
+
+      (gdom/appendChild bienvenida titulo)
+      (gdom/appendChild bienvenida parrafo)
+
+      ;; suponiendo que queremos agrupar la lógica anterior
+      (defn bienvenida-loaded? []
+        (do
+          (gdom/appendChild body titulo)
+          (gdom/appendChild body parrafo)))
+
+      (bienvenida-loaded?)
     #+END_SRC
 ** Modificar contenido de Elementos
 *** setContext
@@ -59,8 +83,8 @@
     #+BEGIN_SRC clojure
       (:require [goog.dom :as gdom])
 
-      (def titulo (gdom/createElement "h1"))
-      (def parrafo (gdom/createElement "p"))
+      (defonce titulo (gdom/createElement "h1"))
+      (defonce parrafo (gdom/createElement "p"))
 
       (gdom/setTextContent titulo "Cuenta de Acceso Premium")
       (gdom/setTextContent parrafo "Estas en la sección premium")
@@ -78,28 +102,14 @@
       (gdom/setTextContent nombre
                            (.-value field-nombre))
     #+END_SRC
-** Anidar elementos
-*** appendChild
-    - La firma es de la forma ~appendChild(elemento-padre, elemento-hijo)~
-*** Ejemplo
-    #+BEGIN_SRC clojure
-      (:require [goog.dom :as gdom])
-
-      (def bienvenida (.querySelector js/document "#bienvenida"))
-      (def titulo (gdom/createElement "h1"))
-      (def parrafo (gdom/createElement "p"))
-
-      (gdom/appendChild bienvenida titulo)
-      (gdom/appendChild bienvenida parrafo)
-    #+END_SRC
 ** Eliminar Elemento
 *** Ejemplo
      #+BEGIN_SRC clojure
        (:require [goog.dom :as gdom])
 
        (def bienvenida (.querySelector js/document "#bienvenida"))
-       (def titulo (gdom/createElement "h1"))
-       (def parrafo (gdom/createElement "p"))
+       (defonce titulo (gdom/createElement "h1"))
+       (defonce parrafo (gdom/createElement "p"))
 
        ;; appendChild(elemento-padre, elemento-hijo)
        (gdom/appendChild bienvenida titulo)
@@ -115,7 +125,7 @@
     #+BEGIN_SRC clojure
       (:require [goog.dom :as gdom])
 
-      (def titulo (gdom/createElement "h1"))
+      (defonce titulo (gdom/createElement "h1"))
 
       (gdom/setProperties titulo #js {"style" "color:red;"
                                       "class" "big-titulo"})
