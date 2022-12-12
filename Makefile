@@ -20,7 +20,13 @@ build-trello-app: ##
 create-temperature-converter: ##
 	$(call figwheel-create-project,$@)
 
+create-shopping-cart: ##
+	$(call figwheel-create-project,$@)
+
 build-temperature-converter: ##
+	$(call figwheel-build,$@)
+
+build-shopping-cart: ##
 	$(call figwheel-build,$@)
 
 ##@ Juegos interactivos
