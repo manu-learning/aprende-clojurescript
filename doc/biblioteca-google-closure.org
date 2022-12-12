@@ -195,3 +195,6 @@
 ** Referencias Oficiales
    1. [[https://developers.google.com/closure/library][Closure Library (developers.google.com)]]
    2. [[https://google.github.io/closure-library/develop/get-started][Getting Started with Closure Library (google.github.io)]]
+   3. [[https://google.github.io/closure-library/api/goog.dom.html][Closure library, namespace goog.dom (google.github.io)]]
+   4. [[https://google.github.io/closure-library/api/goog.events.html][API Closure library, namespace goog.events (google.github.io)]]
+   5. [[https://github.com/google/closure-library/blob/master/closure/goog/dom/dom.js][dom.js (github.com/google/closure-library)]]
