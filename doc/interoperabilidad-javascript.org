@@ -48,7 +48,7 @@
                               "Tercera Mano"
                               "100-Tipo de Guanyin"]}})
    #+END_SRC
-** Acceder a atributos
+** Acceder a propiedades de un objeto
    #+BEGIN_SRC clojure
      ;; #js
      ;; - definimos un objeto en JavaScript
@@ -63,6 +63,56 @@
      (def edad-cazador
        (.-edad cazador))
    #+END_SRC
+** set! - Modificar propiedades de un objeto
+*** Concepto
+    - ~set!~ produce *side-effect* sobre un objeto javascript (/éste no es inmutable/)
+*** Ejemplos
+**** Ejemplo 1 - Crear un objeto JavaScript con #js y modificarlo con set!
+     #+BEGIN_SRC clojure
+       (def alumno #js {"nombre" "Isaac Netero", "edad" 110})
+
+       (set! (.-nombre alumno) "Carlitos")
+
+       (set! (.-edad alumno) 18)
+     #+END_SRC
+**** Ejemplo 2 - Modificar un objeto JavaScript desde la REPL
+     #+BEGIN_SRC clojure
+       ;; supongamos que ya existe el objeto javascript en el DOM del browser..
+       ;; en la consola del navegador escribiríamos en javascript lo siguiente..
+       ;; let jugador = {id:10, puntos:100}
+
+       ;; en la REPL de clojurescript..
+       ;; 1. accedemos al objeto javascript con js/nombre-objeto
+       ;; 2. accedemos a la propiedad del objeto con .-propiedad
+       ;; 3. cambiamos el valor de la propiedad con set!
+       (set! (.-puntos js/jugador) 105)
+     #+END_SRC
+**** Ejemplo 3 - Modificar un elemento del DOM usando innerHTML y set!
+     #+BEGIN_SRC clojure
+       (ns learn-cljs.mi-aplicacion
+         (:require [goog.dom :as gdom]))
+
+       ;; suponiendo que en el index.html existe un <div id='app'></div>
+       (def app-container (gdom/getElement "app"))
+
+       ;; agregamos la cadena "hola!" dentro del div
+       (set! (.-innerHTML app-container) "hola!")
+
+       ;; si no queremos usar el goog.dom
+       ;; podemos usar las funciones nativas de javascript y clojurescript
+       (-> js/document
+           (.getElementById "app")
+           (.-innerHTML)
+           (set! "hola!"))
+
+       ;; podemos confirmar ocurrió el side-effect en el div
+       (-> js/document
+           (.getElementById "app")
+           (.-innerHTML))
+
+       ;; idem que lo anterior, sólo que no usamos la macro ->
+       (.-innerHTML (.getElementById js/document "app"))
+     #+END_SRC
 ** TODO Acceder a estructuras anidadas
    #+BEGIN_COMMENT
    NO funciona, devuelve nil
