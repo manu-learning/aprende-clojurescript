@@ -1,4 +1,8 @@
 #+TITLE: Intro
+#+BEGIN_COMMENT
+Seguir leyendo..
+https://www.learn-clojurescript.com/section-3/lesson-20-capstone-3-contact-book/#summary
+#+END_COMMENT
 * Namespaces (Espacios de nombres)
 ** Conceptos
    - En clojurescript un ~namespace~ agrupa funciones y datos
@@ -107,3 +111,6 @@
    1. [[https://www.learn-clojurescript.com][Learn Clojurescript (Andrew Meredith)]]
 ** Referencias Extraoficiales
    1. https://devz.mx/clojurescript-sin-atajos-fase-1/
+* DevTools
+  1. [[https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html][New react developer tools (reactjs.org)]]
+  2. [[https://practical.li/clojurescript/install/browser-devtools.html][Browser DevTools (practical.li)]]

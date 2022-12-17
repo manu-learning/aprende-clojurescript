@@ -1,6 +1,61 @@
+#+TITLE: README
+* TODO Configurar REPL
+  #+BEGIN_COMMENT
+  por el momento NO se pudo agregar el autocompletado en el clojurescript en spacemacs
+
+  [[https://clojurescript.org/reference/repl-and-main][ClojureScript - The REPL and main entry points (clojurescript.org)]]
+  https://practical.li/spacemacs/reference/cider/configuration-variables.html
+  https://practical.li/spacemacs/alternative-tooling/joker.html
+  https://clojurians-log.clojureverse.org/cider/2020-11-12
+  https://practical.li/spacemacs/clojure-repl/
+  https://github.com/bhauman/figwheel-main-template
+  https://practical.li/clojurescript/figwheel-main-projects/
+  #+END_COMMENT
+* TODO Tecnologias
+  #+BEGIN_COMMENT
+   1. https://es.redux.js.org/
+  #+END_COMMENT
+* TODO Reagent - ClojureScript con React
+  #+BEGIN_COMMENT
+  Reagent es una biblioteca que permite usar Reactjs a través de Clojurescript,
+  por ende si ya estas acostumbrado a usar Clojure, clojurescript sería similar y podrías usar React a través de Reagent
+
+   1. https://dzone.com/articles/realtime-react-coding-in-clojurescript-autumn-2022
+   2. https://blog.koalite.com/2014/09/reagent-una-liberia-para-usar-reactjs-desde-clojurescript/
+   3. https://devz.mx/clojurescript-sin-atajos-fase-4/
+   4. https://www.learn-clojurescript.com/section-5/lesson-28-using-react-via-reagent/
+  #+END_COMMENT
+* TODO Clojure y TADAM
+  #+BEGIN_COMMENT
+  (competencia de react)
+  https://www.tadam-framework.dev/#main
+  #+END_COMMENT
+* TODO ClojureScript REPL
+  #+BEGIN_COMMENT
+  https://clojurescript.io/
+  https://devz.mx/clojurescript-sin-atajos-fase-3/
+  https://medium.com/memorias-de-un-techie/empezando-a-jugar-con-clojure-7fa1c035a555
+  #+END_COMMENT
+* Libros de Clojurescript
+  1. https://clojurescript.org/community/books
+  2. https://www.amazon.com/Reactive-ClojureScript-Recipes-Functional-Programming/dp/1484230086
+  3. https://www.amazon.com/Clojure-Reactive-Programming-Asynchronous-Applications/dp/1783986662
+* Libros Online
+  1. [[https://www.learn-clojurescript.com][Learn Clojurescript (Andrew Meredith)]]
+  2. [[https://funcool.github.io/clojurescript-unraveled/][ClojureScript Unraveled, 2nd edition (funcool.github.io)]]
+
+  #+BEGIN_COMMENT
+  https://www.linuxlinks.com/excellent-free-books-learn-clojurescript/
+  #+END_COMMENT
+* TODO Tutoriales
+   #+BEGIN_COMMENT
+   Videotutoriales
+  1. https://www.youtube.com/watch?v=MQmdWSh2FG4&ab_channel=BetweenTwoParens
+   #+END_COMMENT
 * Referencias
 ** Referencias Oficiales
    1. [[https://clojurescript.org/community/libraries][ClojureScript libraries (clojurescript.org)]]
+   2. [[https://clojure.org/guides/getting_started][Getting Started (clojure.org)]]
 ** Referencias Extraoficiales
    1. [[https://github.com/hantuzun/awesome-clojurescript][List of Clojurescript frameworks, libraries and wrappers]]
 ** Bibliotecas + Frameworks
