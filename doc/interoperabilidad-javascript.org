@@ -188,6 +188,79 @@
      (def numero-de-etapa-final-examen-cazador
        (.indexOf examen-cazador "Fase Final"))
    #+END_SRC
+** array-seq - Transformar Arrays Javascript en Secuencias de Clojure
+*** Conceptos
+    - ~array-seq~ transforma un *array de javascript* en una *secuencia de Clojure*
+    - ~array-seq~ se puede usar sobre elementos del DOM obtenidos con la función ~getElementsByClass~ del namespace ~goog.dom~ (/de la bilioteca Closure de Google/)
+*** Ejemplos Básicos
+**** Ejemplo 1
+     #+BEGIN_SRC clojurescript
+       ;; devuelve (1 2 3 4)
+       ;; porque transformó el array de javascript en una secuencia de clojure
+       (array-seq #js [1 2 3 4])
+
+       ;; devuelve (2 3 4)
+       ;; porque el 1 indica que array-seq cree la secuencia a luego del primer elemento
+       (array-seq #js [1 2 3 4] 1)
+
+       ;; devuelve (3 4)
+       ;; porque el 2 indica que array-seq cree la secuencia a luego del segundo elemento
+       (array-seq #js [1 2 3 4] 2)
+     #+END_SRC
+**** Ejemplo 2 - array-seq con Array de strings de JavaScript
+     #+BEGIN_SRC clojurescript
+       (def lista-favoritos #js ["lucas" "matias" "pepe"])
+
+       (defn imprimir-favoritos []
+         (let [favoritos (array-seq lista-favoritos)]
+           (doseq [contacto favoritos]
+             (println contacto))))
+     #+END_SRC
+**** Ejemplo 3 - array-seq con Array de Javascript con objetos JavaScript
+     #+BEGIN_SRC clojurescript
+       (def lista-favoritos #js [{"nombre" "lucas", "edad" 18},
+                                 {"nombre" "pedro", "edad" 19},
+                                 {"nombre" "samu", "edad" 50}])
+
+       (defn imprimir-favoritos []
+         (let [favoritos (array-seq lista-favoritos)]
+           (doseq [contacto favoritos]
+             (println contacto))))
+     #+END_SRC
+*** Ejemplo
+**** Ejemplo con REPL + HTML
+     #+BEGIN_SRC html
+       <!-- index.html -->
+       <div id="lista-contactos">
+
+       <!-- en clojurescript agruparemos todos los elementos con "contact-detail" con goog.dom/getElementsByClass -->
+         <div class="contact-detail">carlitos</div>
+         <div class="contact-detail">pepe</div>
+         <div class="contact-detail">samu</div>
+       </div>
+
+    <script src="cljs-out/dev-main.js" type="text/javascript"></script>
+     #+END_SRC
+
+     #+BEGIN_SRC clojurescript
+       ;; importamos el namespace goog.dom de la biblioteca Closure de Google
+       (ns learn-cljs.contact-book
+         (:require [goog.dom :as gdom]))
+
+       ;; - getElementsByClass devuelve un array de javascript
+       ;; con objetos javascript como elementos
+       ;;
+       ;; - array-seq convierte el array de javascript en una secuencia de ClojureScript
+       ;; con los mismos objetos javascript, de esta forma podemos recorrerlo con clojure
+       (def lista-contactos
+         (array-seq (gdom/getElementsByClass "contact-detail")))
+
+       ;; - doseq itera sobre los elementos de una secuencia igual que un for
+       ;; pero NO devuelve una "secuencia perezosa"
+       (defn imprimir-contactos []
+         (doseq [contacto lista-contactos]
+           (println (.-innerHTML contacto))))
+     #+END_SRC
 * Ejemplos Integradores
 ** Ejemplo 1
    #+BEGIN_SRC clojure
