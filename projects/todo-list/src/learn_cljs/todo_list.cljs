@@ -5,12 +5,25 @@
             [hiccups.runtime]
             [clojure.string :as str]))
 
-;; (def lista-tareas [{:titulo "Cocinar torta" :prioridad 0 :done? false :editing? false}
-;;                    {:titulo "Mirar TV" :prioridad 0 :done? false :editing? false}
-;;                    {:titulo "Lavar la ropa" :prioridad 0 :done? false :editing? false}
-;;                    {:titulo "Preparar la cena" :prioridad 0 :done? true :editing? false}])
+(comment "
+(def lista-tareas [{:titulo "Cocinar torta" :prioridad 0 :estado 0}
+                   {:titulo "Mirar TV" :prioridad 0  :estado 0}
+                   {:titulo "Lavar la ropa" :prioridad 0  :estado 0}
+                   {:titulo "Preparar la cena" :prioridad 0 :estado 0}])
+")
 
 (def lista-tareas [])
+(def lista-prioridades ["Alta" "Normal" "Baja"])
+(def lista-estados ["Pendiente" "En Progreso" "Finalizada"])
+(def bg-prioridades ["bg-red-100" "bg-yellow-100" "bg-white"])
+(def icono-tarea-finalizada
+  [:svg {:class "flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" :fill "currentColor" :viewBox "0 0 20 20" :xmlns "http://www.w3.org/2000/svg"}
+   [:path {:fill-rule "evenodd"
+           :d "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+           :clip-rule "evenodd"}]])
+
+(defn get-background-prioridad [prioridad]
+  (get bg-prioridades (int prioridad)))
 
 ;; necesario por la dependencia de varias funciones que dependen de ésta,
 ;; pero su definición es posterior a la definición a ellas
@@ -23,7 +36,7 @@
 
 ;; select-keys, devolvemos de la estructura map sólo las entradas de la secuencia de keywords
 (defn crear-tarea [tarea]
-  (select-keys tarea [:titulo :prioridad :done?]))
+  (select-keys tarea [:titulo :prioridad :estado]))
 
 ;; conj, devolvemos una nueva lista-tareas con el elemento nueva-tarea agregado
 (defn agregar-tarea [lista-tareas nueva-tarea]
@@ -43,11 +56,34 @@
 
 ;; {:keys secuencia-keys} concepto de destructuring para estructuras asociativas map
 (defn tarea-detalles [tarea]
-  (let [{:keys [:titulo :prioridad]} tarea]
-    (str "(" prioridad ") " titulo)))
+  (let [{:keys [:titulo :prioridad :estado]} tarea]
+    titulo))
 
-;; UI
+;; UI - Render
 (def app-container (gdom/getElement "app-container"))
+
+(defn render-form-select-option [index-opcion texto seleccionado?]
+  (if seleccionado?
+    [:option {:value index-opcion :selected "selected"} texto]
+    [:option {:value index-opcion} texto]))
+
+(defn render-form-select [atributo opciones tarea]
+  (let [nombre (name atributo)]
+    [:div
+     [:label {:for nombre
+              :class "block mb-2 text-sm font-medium text-gray-900 dark:text-white"}
+      nombre]
+     [:select {:id (str "select-" nombre)
+               :class "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}
+      (map-indexed (fn [index-opcion opcion]
+                     (render-form-select-option index-opcion opcion (= (int(atributo tarea)) index-opcion)))
+                   opciones)]]))
+
+(defn render-lista-prioridades [tarea]
+  (render-form-select :prioridad lista-prioridades tarea))
+
+(defn render-lista-estados [tarea]
+  (render-form-select :estado lista-estados tarea))
 
 (defn render-button [nombre texto]
   [:div
@@ -73,27 +109,33 @@
    [:h3 {:class "text-gray-900 text-xl leading-tight font-medium mb-2"}
     "Tarea"]
    (render-input-tarea :titulo tarea)
-   (render-input-tarea :prioridad tarea)
+   (render-lista-prioridades tarea)
+   (render-lista-estados tarea)
    [:div {:class "flex space-x-2 justify-center"}
     (render-button "guardar-tarea" "Guardar")
     (when (not-empty tarea)
       (render-button "eliminar-tarea" "Eliminar"))
-    (render-button "cancelar-tarea" "Cancelar")
-    ]])
+    (render-button "cancelar-tarea" "Cancelar")]])
+
+(defn finalizada? [tarea]
+  (let [texto (get lista-estados (int(:estado tarea)))]
+    (= texto "Finalizada")))
 
 (defn render-ver-tarea [numero-tarea tarea]
   [:div {:class "py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"}
-    (tarea-detalles tarea)])
+   [:div {:class "flex items-center pl-3"}
+    (when (finalizada? tarea) icono-tarea-finalizada)
+    (tarea-detalles tarea)]])
 
 ;; - selected? es true si la tarea está en selected de state, lógica en render-lista-tareas
 ;; - el atributo data-index lo usaremos para editar cada tarea
 (defn render-lista-tareas-item [indice-tarea tarea tarea-seleccionada?]
   (let [editando? (:editando? tarea)]
-    [:li {:class (str (when tarea-seleccionada? "tarea-seleccionada ") "lista-tareas-item w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600")
+    [:li {:class (str (when tarea-seleccionada? "tarea-seleccionada ")
+                      (get-background-prioridad (:prioridad tarea))
+                      " lista-tareas-item w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600")
           :data-index indice-tarea}
-     [:div {:class "flex items-center pl-3"}
-      (render-ver-tarea indice-tarea tarea)
-      ]]))
+     (render-ver-tarea indice-tarea tarea)]))
 
 ;; tarea-seleccionada? es true si la tarea está en state
 (defn render-lista-tareas [state]
@@ -106,8 +148,7 @@
      [:ul {:class "w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white"}
       (map-indexed (fn [index-tarea tarea]
                      (render-lista-tareas-item index-tarea tarea (= index-tarea tarea-seleccionada)))
-                   tareas)
-      ]]))
+                   tareas)]]))
 
 ;; UI acciones
 ;; TODO: refactor
@@ -117,7 +158,8 @@
 
 (defn get-tarea-form-data []
   {:titulo (get-field-value "input-titulo")
-   :prioridad (get-field-value "input-prioridad")})
+   :prioridad (get-field-value "select-prioridad")
+   :estado(get-field-value "select-estado")})
 
 ;; tiene doble función, usamos para agregar una tarea nueva y para guardar la edición de una tarea
 (defn listener-guardar-tarea [state]
