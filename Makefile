@@ -26,6 +26,12 @@ create-shopping-cart: ##
 create-todo-list: ##
 	$(call figwheel-create-project,$@)
 
+create-counter: ##
+	$(call figwheel-create-project,$@)
+
+create-salary-calculator: ##
+	$(call figwheel-create-project,$@)
+
 build-temperature-converter: ##
 	$(call figwheel-build,$@)
 
@@ -33,6 +39,12 @@ build-shopping-cart: ##
 	$(call figwheel-build,$@)
 
 build-todo-list: ##
+	$(call figwheel-build,$@)
+
+build-counter: ##
+	$(call figwheel-build,$@)
+
+build-salary-calculator: ##
 	$(call figwheel-build,$@)
 
 ##@ Juegos interactivos
