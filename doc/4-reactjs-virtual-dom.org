@@ -1,0 +1,89 @@
+#+TITLE: ReactJS + Virtual DOM
+* React
+** Conceptos
+   - está basado en la *Programación Reactiva* (/no es propio de ReactJS, otros frameworks y lenguajes también la adoptan/)
+   - utiliza la *estrategia de Virtual DOM* para reducir la cantidad de operaciones en el *Real DOM*
+** Referencias
+*** Referencias Oficiales
+    1. [[https://reactjs.org/docs/cdn-links.html][CDN Links (reactjs.org)]]
+*** Referencias Extraoficiales
+    1. [[https://www.copycat.dev/blog/reactjs-cdn/][How React.js CDN Makes your life easier (copycat.dev)]]
+    2. [[https://www.belugacdn.com/cdn-react/][Top features of using CDN in React (belugacdn.com)]]
+    3. [[https://www.tutorialspoint.com/reactjs/reactjs_using_cdn.htm][ReactJS Using CDN (tutorialspoint.com)]]
+    4. [[https://www.pluralsight.com/guides/using-react-router-with-cdn-links][Using React Router with CDN Links (pluralsight.com)]]
+* Real DOM (Document Object Model)
+** Conceptos
+   - es la *interfaz gráfica* de un *documento web* (/las aplicaciones web/)
+   - es una implementación de Browser (Chrome, Firefox, ...)
+** Estructura de Árbol
+   - el Real DOM *Document Object Model* tiene una *estructura en forma de árbol*
+   - los *nodos* del árbol representan los elementos UI del *Documento HTML* (Ej. etiquetas ~<html>~, ~<body>~, ~<p>~, ~<span>~, ..)
+** Estado de una Aplicación Web y Manipulación del Real DOM
+   - cuando el *estado de una aplicación web* cambia, entonces el DOM también (/esto es una operación costosa en términos de rendimiento/)
+   - el *Real DOM* expone *operaciones para manipular el documento html* ó interfaz gráfica del usuario
+     1) agregar elementos UI
+     2) remover elementos UI
+     3) obtener uno o varios elementos UI
+** Problemas de Rendimiento
+   #+BEGIN_QUOTE
+   Un ejemplo dónde se tiene *problemas de rendimiento* al re-renderizar el DOM sería
+   1) Un *nodo* del árbol del (Real DOM) se debe renderizar de nuevo (Ej. el elemento ~<html>~ ó ~<body>~ ó hasta una lista ~<ul>~)
+   2) si ese nodo tiene muchos nodos hijos, también se debe renderizar todos los nodos hijos hayan cambiado o no
+
+   La estrategia de *Virtual DOM* optimiza el problema anterior, reduciendo la cantidad de elementos UI a re-rendizar.
+   Es decir minimiza la cantidad de operaciones side-effect sobre el DOM ó de la interfáz gráfica del usuario
+   #+END_QUOTE
+* Virtual DOM
+** Conceptos
+   - es una implementación de bibliotecas ó frameworks (ReactJS, VueJS, ...)
+   - es una *copia en memoria* del *Real DOM* (cada objeto sigue teniendo las mismas propiedades, operaciones, ...)
+** Manipulación del Virtual DOM
+   - es más eficiente manipular (más rápido) comparado con manipular el *Real DOM*
+   - al ser una copia del Real DOM, cada objeto expone las mismas operaciones/funciones
+   - NO requiere renderizar sus objetos en elementos UI (/el Real DOM si, por eso es más lento/)
+** Estrategia de Optimización
+   1) se escucha/observa si hay algun cambio en algún *elemento UI* (cada elemento UI tiene un *estado interno* Ej. atributos, propiedades)
+   2) se traslada los *cambios de estado* (/cada elemento de la UI tiene un estado/) a la *interfáz gráfica* (Real DOM, en el navegador web)
+** Referencias
+*** Referencias Oficiales
+    1. [[https://reactjs.org/docs/faq-internals.html][Virtual DOM and Internals (reactjs.org)]]
+*** Referencias Extraoficiales
+    1. [[https://blog.logrocket.com/virtual-dom-react/][What is the Virtual DOM in React? (blog.logrocket.com)]]
+    2. [[https://latteandcode.medium.com/y-eso-del-virtual-dom-de-react-qu%C3%A9-es-3feed6366925][Que es el Virtual DOM de React? (latteandcode.medium.com)]]
+    3. [[https://www.codecademy.com/article/react-virtual-dom][React, the virtual DOM (codeacademy.com)]]
+* Algoritmo Diffing
+** Conceptos
+   - Analiza que *nodos* (representan elementos UI) del *Arbol del Virtual DOM* debe re-renderizar (/mostrarse en la interfáz gráfica del usuario, en el Real DOM/)
+   - re-renderiza sólo algunos los elementos UI (/los que difieren entre el árbol del Real DOM y Virtual DOM/)
+     - porque es más eficiente que re-renderizar todo el Componente sólo por un elemento del componente
+     - porque es más eficiente que re-renderizar todos los componentes del DOM sólo por un componente
+** Detectar cambios entre Real DOM y Virtual DOM
+  - Detecta cuales son los *nodos* modificados comparando entre el *árbol del Real DOM* (estado inicial de la app) y el *árbol del Virtual DOM* (estado nuevo de la app)
+    1) por añadir/remover atributos de un elemento html (Ej. agregarle class)
+    2) por añadir/remover texto dentro de un elemento html
+    3) por cambiar una etiqueta html por otra (Ej. div por span), en éste caso *destruye el nodo viejo y lo reemplaza por el nodo modificado*
+** Nodo Raíz - Elemento UI con elementos hijos
+  - un elemento UI es raíz si tiene elementos hijos (Ej. un elemento ~<ul>~ con varios ~<li>~)
+  - si un elemento UI es raíz , al comparar el árbol del *Real DOM* y *Virtual DOM*
+    1) si tienen la misma *raiz* (root), entonces recorre los *nodos*
+    2) si los *nodos* (elementos del HTML) son del mismo tipo, entonces recorre sus *nodos hijos*
+    3) si los *nodos* son distintos entonces el *nodo nuevo* reemplaza al *nodo viejo*
+** Ejemplo
+  #+BEGIN_QUOTE
+  Si tenemos una lista ~<ul>~ con varios items ~<li>~ pueden ocurrir dos escenarios,
+  que suceden porque se leen los árboles del *Virtual DOM* desde la raíz (root)
+
+  1º Escenario, renderiza sólo un elemento del componente (la lista de items)
+  1) agregamos un elemento ~<li>~ al final de la lista
+  2) el *algoritmo diffing* compara los *arboles virtuales* y tienen la misma raíz, entonces sólo renderiza el nuevo elemento <li>
+
+  2º Escenario, renderiza todo el componente de nuevo (la lista con cada item)
+  1) agregamos un elemento ~<li>~ al principio de la lista
+  2) el *algoritmo diffing* compara los *arboles virtuales* y tienen distinta raíz, entonces renderiza toda la lista
+  #+END_QUOTE
+* Comparación Virtual DOM y Real DOM
+  - Compara el *Real DOM* (estado inicial de la aplicación web) y el *Virtual DOM* (estado modificado de algún elemento UI, árbol del Real DOM en memoria)
+  - El *Árbol del Real DOM* y *Árbol del Virtual DOM* se pueden interpretar como *Snapshots* (el estado del DOM y sus elementos en un instante de tiempo)
+** Referencias
+*** Referencias Oficiales
+    1. [[https://reactjs.org/docs/reconciliation.html#the-diffing-algorithm][The diffing Algorithm (reactjs.org)]]

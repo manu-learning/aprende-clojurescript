@@ -1,0 +1,86 @@
+#+TITLE: Programación Funcional Reactiva (FRP, Functional Reactive Programming)
+* Sistemas Reactivos
+** Conceptos
+   #+BEGIN_QUOTE
+   Los ejemplos más comunes para entenderlo son
+   1) Un valor ~C~ calculado que es resultado de otros dos valores ~A~ y ~B~, cuando alguno de los últimos dos cambia el calculado ~C~ reacciona y cambia
+   #+END_QUOTE
+** Ejemplos
+*** Ejemplo - Campo calculado en una Hoja de Cálculo
+   #+BEGIN_QUOTE
+   1) Tenemos tres celdas ~A~ ~B~ y ~C~, las dos primeras pondremos valores numéricos
+   2) La celda ~C~ tiene el resultado de sumar las celdas ~A~ y ~B~
+   3) Cuando alguna de las celdas ~A~ ó ~B~ cambie su valor, entonces la celda ~A~ *reacciona* y cambia su valor
+
+   Aplicado al *paradigma funcional* podemos separar la lógica en *funciones impuras*
+   #+END_QUOTE
+** Cualidades de Diseño
+*** Conceptos
+   - Las cualidades de diseño que los caracterizan son
+     1) Más flexibles
+     2) Bajo acoplamiento
+     3) Más tolerantes a fallos
+     4) Más escalables
+     5) Altamente responsivos
+*** Responsivos
+    - Los problemas son detectados de forma rápida y manejados de forma eficiente
+    - Proveen *tiempos de respuesta* rápidos y consistentes
+*** Resilientes
+    - Permanecen *responsivos* ante cualquier fallo (/si ante el primer fallo deja de ser responsivo, entonces no cumple con ser resiliente/)
+    - Los fallos (failure) son manejados dentro de cada *componente* y tratandolos de forma *aislada* (isolation) para no afectar al resto del sistema
+*** Elásticos
+    - Permanecen *responsivos* ante cambios en la *carga de trabajo* (cantidad de peticiones/request al sistema)
+    - Reducen/Incrementan los recursos para manejar la *carga de trabajo*
+    - Capacidad para *replicar ó dividir componentes* para *distribuir las peticiones* entre ellos
+*** Orientados a Mensajes
+    - El *intercambio de mensajes* entre los componentes es *Asíncrono* (comunicación NO-bloqueante)
+      1) asegura bajo acoplamiento
+      2) asegura aislamiento
+    - La *comunicación NO-Bloqueante*
+      - permite a los destinatarios *consumir recursos sólo cuando están activos*
+      - reduce la sobrecarga en el sistema
+** Referencias
+*** Referencias Oficiales
+    1. [[https://www.reactivemanifesto.org/es][Manifiesto de Sistemas Reactivos (reactivemanifesto.org)]]
+    2. [[https://www.reactivemanifesto.org/glossary#Failure][Glosario de Manifiesto de Sistemas Reactivos (reactivemanifesto.org)]]
+* (FRP) Programación Funcional Reactiva
+** Conceptos
+  - La (FRP) *Programación Funcional Reactiva* está basada en
+    1) la *Programación dirigida por Eventos* más enfocado al *Patrón de Diseño Observer*
+    2) al *Comportamiento* (se puede representar con un Estado que puede variar)
+  - Los *eventos* y los *comportamientos* son *inmutables*
+
+  #+BEGIN_QUOTE
+  Es útil en aplicaciones web modernas que tiene un alto nivel de interacción con
+  *ocurrencias de eventos UI* (UI Event) relacionados con *ocurrencias de eventos de datos* (data Event)
+
+  Un ejemplo es cuando hacemos click a *Like* a la aplicación de Facebook
+  #+END_QUOTE
+** Referencias
+*** Referencias Oficiales
+    1. [[https://cljdoc.org/d/frp/frp/0.1.3/doc/the-introduction-to-functional-reactive-programming-you-ve-been-missing][The introduction to Functional Reactive Programming (cljdoc.org)]]
+* Relación con Programación Dirigida por Eventos
+** Conceptos
+  - Un *evento* puede ser usado como *entrada* (input) de otro *evento*
+  - Un *evento* es una lista de ocurrencias ordenadas y *emiten un valor*
+  - Los *Observadores* (Observers) son acciones que definimos y generan *side-effects*
+  - La *Suscripción* es *escuchar* (listen) cuando un evento emite un valor
+  - El *Sujeto Observado/Observable* (Subject) es el *evento* que está siendo observado
+  - Capturamos los eventos de *forma Asincrónica*
+* Relación con el Comportamiento y Estado
+** Conceptos
+   - El *Comportamiento* se representa con *estados*
+   - Los *Observadores* (Observers) son las operaciones definidas (generan side-effects)
+   - El *Sujeto Observado/Observable* (Subject) es el *comportamiento*
+   - La *Suscripción* (listen) es sobre el *comportamiento*
+   - Capturamos el *retorno de valores* de *forma asincrónica* (definiendo alguna operación con side-effects)
+** Ejemplos
+   #+BEGIN_QUOTE
+   Un comportamiento podría ser
+   1. observamos el *estado global de la aplicación* (cuando ésta cambia)
+   2. cuando éste cambia, entonces *reaccionamos* ejecutando una operación con *side-effects*
+
+   Otros ejemplos de comportamientos los podríamos crear sobre
+   - entradas del usuario en un campo de texto
+   - estructuras de datos
+   #+END_QUOTE

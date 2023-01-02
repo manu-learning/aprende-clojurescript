@@ -1,0 +1,127 @@
+#+TITLE: Reagent
+* TODO Conceptos
+* TODO Funciones Utiles
+** make-reaction
+*** Conceptos
+   - la sintáxis es de la forma ~(make-reaction funcion)~
+   - es una función del namespace ~reagent.ratom~
+   - para relacionar ~reactive atoms~ y depende de ellos
+   - ~make-reaction~ se actualiza/evalúa cuando los ~reactive atoms~ cambian su estado
+*** Ejemplos
+    #+BEGIN_SRC clojurescript
+      (ns example
+        (:require
+         [reagent.core :as r]
+         [reagent.ratom :as ratom]))
+
+      (def celda-a (r/atom 0))
+      (def celda-b (r/atom 0))
+
+      ;; cuando cambien el estado celda-a ó celda-b
+      ;; entonces cambiará el estado el átomo celda-c
+      (def celda-c
+        (ratom/make-reaction
+         #(+ @celda-a @celda-b)))
+    #+END_SRC
+** run!
+*** Conceptos
+    - la sintáxis es de la forma ~(run! & cuerpo)~
+    - es una función del namespace ~reagent.ratom~
+    - ~run!~ se ejecuta cada vez que algún *átomo* sea *dereferenciado* en el cuerpo
+    - el ~cuerpo~ debería generar *side-effect*
+*** Ejemplos
+    #+BEGIN_SRC clojurescript
+      (ns example
+        (:require
+         [reagent.core :as r]
+         [reagent.ratom :as ratom]))
+
+      (def celda-a (r/atom 0))
+      (def celda-b (r/atom 0))
+
+      ;; cuando cambien el estado celda-a ó celda-b
+      ;; entonces cambiará el estado el átomo celda-c
+      (def celda-c
+        (ratom/make-reaction
+         #(+ @celda-a @celda-b)))
+
+      (ratom/run!
+       (set! (.-value render-celda-c) @celda-c))
+    #+END_SRC
+** render
+*** Conceptos
+    - es una función del Namespace ~ragent.dom~
+    - la sintáxis es de la forma ~(reagent.dom/render componente-de-reagent nodo-del-DOM)~
+      1) ~componente-de-reagent~
+      2) ~nodo-del-DOM~ que hayamos obtenido (Ej. con ~(goog.dom/getElement id-elemento-del-dom)~)
+*** Ejemplos
+    #+BEGIN_SRC clojurescript
+      (ns example
+        (:require
+         [goog.dom :as gdom]
+         [reagent.core :as r]))
+
+      (defn hola []
+        [:p "Hola...!"])
+
+      (rdom/render
+       hola
+       (gdom/getElement "app"))
+    #+END_SRC
+* TODO Ejemplos Integradores
+** TODO Ejemplo 1 - Simulación una Celda calculada de una Hoja de Calculo
+   #+BEGIN_SRC clojurescript
+     (ns example
+       (:require
+        [goog.dom :as gdom]
+        [goog.events :as gevents]
+        [reagent.core :as r]
+        [reagent.ratom :as ratom]
+        [reagent.dom :as rdom]))
+
+     ;; datos
+     (def celda-a (r/atom 0))
+     (def celda-b (r/atom 0))
+     (def celda-c
+       (ratom/make-reaction
+        #(+ @celda-a @celda-b)))
+
+     ;; UI
+     (def render-celda-a (gdom/getElement "celda-a"))
+     (def render-celda-b (gdom/getElement "celda-b"))
+     (def render-celda-c (gdom/getElement "celda-c"))
+
+     (defn actualizar-celda [celda]
+       (fn [evento]
+         (let [valor (js/parseInt (.. evento -target -value))]
+           (reset! celda valor))))
+
+     ;; FUNCIÓN (listen) del namespace goog.events
+     ;;
+     ;; si asociamos la función (listen) con el patrón Observer..
+     ;; - con listen nos Suscribimos al cambio de Estado del elemento UI del DOM (porque en realidad un elemento del DOM es un objeto javascript y tienen Estado Interno)
+     ;; - con listen nos Suscribimos al Evento "change", cuando el evento devuelva un valor nos notifica que hubo un cambio
+     ;;
+     ;; 1º parámetro es el "elemento UI del DOM" observado/observable
+     ;; - escuchamos cuando ocurre un "cambio de estado" en el elemento UI (porque un elemento del DOM es un objeto javascript, por tanto tiene estado)
+     ;;
+     ;; 2º parámetro el "tipo de evento" observado/observable
+     ;; - escuchamos cuando hay una nueva ocurrencia del evento "change" (un evento es una lista de ocurrencias ordenadas que devuelven un valor)
+     ;;
+     ;; 3º parámetro la "función Handler del Evento"
+     ;; - se ejecuta cuando hay nuevas ocurrencias del evento (Ej. un click en un botón, pasar el cursor sobre un campo de texto, ...)
+     ;; - ejecuta una operación con side-effects
+     ;;
+     ;; función (actualizar-celda) que le pasamos a la función (listen) del namespace goog.events
+     ;; 1) espera recibir un parámetro (la estructura de datos dónde guardar el valor nuevo de la celda, en este caso sólo son referencias a átomos)
+     ;; 2) devuelve una función anónima fn, que espera recibir un parámetro (el evento, que será "change" para ambos listen)
+     (gevents/listen render-celda-a "change" (actualizar-celda celda-a))
+     (gevents/listen render-celda-b "change" (actualizar-celda celda-b))
+
+     (ratom/run!
+      (set! (.-value render-celda-c) @celda-c))
+   #+END_SRC
+** TODO Ejemplo 2 - Calculadora Binaria
+* Referencias
+** Referencias Oficiales
+   1. [[https://ericnormand.me/guide/reagent][ClojureScript + Reagent (ericnormand.me)]]
