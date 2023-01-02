@@ -130,6 +130,31 @@
       (gdom/setProperties titulo #js {"style" "color:red;"
                                       "class" "big-titulo"})
     #+END_SRC
+* add-watch - Observar cambios de estado
+** Conceptos
+   - la sintáxis es de la forma ~(add-watch referencia keyword funcion-watch-handler)~
+     1) la ~referencia~ es la variable de tipo ~atom~ que tenemos interés en observar los cambios de Estado
+     2) la ~keyword~ con la que luego podemos remover la función watch (dejará de observar)
+     3) la ~funcion-watch-handler~
+        - tiene los cambios de estado (del estado anterior y el nuevo estado)
+        - los parámetros de mayor interés suelen ser (3º param) anterior-valor y (4º param) nuevo-valor
+** Ejemplo
+   #+BEGIN_SRC clojurescript
+     (defonce app-state (atom {:contador 0}))
+
+     (def app-container (gdom/getElement "app"))
+
+     (defn watch-state-contador []
+       (add-watch app-state :counter-observer
+                  (fn [key atom anterior-valor nuevo-valor]
+                    (render-app! nuevo-valor))))
+   #+END_SRC
+** Referencias
+*** Referencias Oficiales
+    1. [[https://cljs.github.io/api/cljs.core/add-watch][add-watch (cljs.github.io)]]
+*** Referencias Extraoficiales
+    1. [[https://practical.li/clojurescript/figwheel-project/add-a-counter.html][add a counter (practical.li)]]
+    2. [[https://www.tutorialspoint.com/clojure/clojure_watchers.htm][Clojure watchers (tutorialspoint.com)]]
 * Escuchar y Manejar Eventos
 ** Crear Eventos
 *** listen
