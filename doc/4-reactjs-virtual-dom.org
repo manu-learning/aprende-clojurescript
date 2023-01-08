@@ -1,16 +1,106 @@
 #+TITLE: ReactJS + Virtual DOM
-* React
+* ReactJS
 ** Conceptos
    - está basado en la *Programación Reactiva* (/no es propio de ReactJS, otros frameworks y lenguajes también la adoptan/)
    - utiliza la *estrategia de Virtual DOM* para reducir la cantidad de operaciones en el *Real DOM*
+** TODO Ejemplos Básicos
+   #+BEGIN_COMMENT
+   agregar más ejemplos básicos para tener variedad y diferenciar con clojurescript
+   #+END_COMMENT
+*** Ejemplo 1
+    #+BEGIN_SRC javascript
+      // dentro de la etiqueta <script>..</script>
+      // ó dentro de archivo.jsx quedando <script src="ruta/archivo.jsx"></script
+
+      // como JSX se transpila con llamadas a React.createElement
+      // y suponiendo que tenemos el "ECMASCript modules" podemos importar ReactJS usando "import"
+      import React from 'react';
+
+      // Alternativa 1:
+      // - declaración de un botón usando JSX
+      // - definimos una función nombrada (representa el componente de ReactJS)
+      function SuscribirseButton(){
+          return <SuscribirseButton className="button-red">Suscribirse YA</SuscribirseButton>;
+      }
+
+      // Alternativa 2:
+      // - la variable le asignamos una "función lambda" que no recibe parámetros y devuelve el componente
+      const suscribirse = () => <SuscribirseButton className="button-red">Suscribirse YA</SuscribirseButton>;
+
+      // Alternativa 3:
+      // - la variable le asignamos una "función lambda" que no recibe parámetros y devuelve el componente
+      const suscribirse = () => {
+          return (<SuscribirseButton className="button-red">Suscribirse YA</SuscribirseButton>);
+      };
+
+      // BabelJS transpila la declaración anterior en
+      React.createElement(
+          SuscribirseButton,
+          {className: 'button-red'},
+          'Suscribirse YA'
+      );
+    #+END_SRC
+*** Ejemplo 2
+    #+BEGIN_SRC javascript
+      // dentro de la etiqueta <script>..</script>
+      // ó dentro de archivo.jsx quedando <script src="ruta/archivo.jsx"></script
+
+      // como JSX se transpila con llamadas a React.createElement
+      // y suponiendo que tenemos el "ECMASCript modules" podemos importar ReactJS usando "import"
+      import React from 'react';
+
+      // creamos un componente de React llamado Saludar
+      // (debe comenzar con mayúscula para luego diferenciarlo de las etiquetas html)
+      function Saludar(props){
+          return <span>Hola {props.nombre}</span>;
+      }
+
+      function HolaMundo(){
+          // usamos el componente de React que creamos
+         return <Saludar nombre="carlitos" />;
+      }
+
+      const rootElement = document.getElementById("root");
+      ReactDOM.createRoot(rootElement).render(<HolaMundo/>);
+    #+END_SRC
 ** Referencias
 *** Referencias Oficiales
     1. [[https://reactjs.org/docs/cdn-links.html][CDN Links (reactjs.org)]]
 *** Referencias Extraoficiales
-    1. [[https://www.copycat.dev/blog/reactjs-cdn/][How React.js CDN Makes your life easier (copycat.dev)]]
-    2. [[https://www.belugacdn.com/cdn-react/][Top features of using CDN in React (belugacdn.com)]]
-    3. [[https://www.tutorialspoint.com/reactjs/reactjs_using_cdn.htm][ReactJS Using CDN (tutorialspoint.com)]]
-    4. [[https://www.pluralsight.com/guides/using-react-router-with-cdn-links][Using React Router with CDN Links (pluralsight.com)]]
+    1. [[https://playcode.io/react][React Playground (playcode.io)]]
+    2. [[https://www.copycat.dev/blog/reactjs-cdn/][How React.js CDN Makes your life easier (copycat.dev)]]
+    3. [[https://www.belugacdn.com/cdn-react/][Top features of using CDN in React (belugacdn.com)]]
+    4. [[https://www.tutorialspoint.com/reactjs/reactjs_using_cdn.htm][ReactJS Using CDN (tutorialspoint.com)]]
+    5. [[https://www.pluralsight.com/guides/using-react-router-with-cdn-links][Using React Router with CDN Links (pluralsight.com)]]
+* ClojureScript Vs JSX
+** Estructuras de Datos con ClojureScript
+  - Si usamos *ReactJS* y *ClojureScript* usamos las *estructuras de datos* comunes de ClojureScript por tanto
+    1) NO dependemos de la sintáxis de JSX
+    2) Usamos estructuras de datos *inmutables*
+    3) Nos mantenemos en el *paradigma funcional*
+** TODO Estructura de Datos con JSX (JavaScript Syntax Extension)
+   - Si usamos *ReactJS* y *JavaScript*, representamos las *estructuras de datos* (componentes) usando la sintáxis *JSX*
+   - ~JSX~ es una sintáxis para definir elementos (datos) para *ReactJS* en *JavaScript*
+   - ~JSX~ es un *azúcar sintáctico* para la función ~React.createElement(componente, propiedades, ...)~
+
+    #+BEGIN_QUOTE
+    Podemos *declarar una variable* ~saludo~ con ~JSX~ en código JavaScript de la siguiente manera
+    ~const saludo = <p>Hola Mundo..!</p>;~
+    #+END_QUOTE
+** Referencias
+*** Referencias Oficiales
+    1. [[https://es.reactjs.org/docs/introducing-jsx.html][Presentando JSX (reactjs.org)]]
+    2. [[https://es.reactjs.org/docs/jsx-in-depth.html][JSX en profundidad (reactjs.org)]]
+    3. [[https://nodejs.org/api/esm.html][ECMAScript Modules (nodejs.org)]]
+    4. [[https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/import][sentencia import (developer.mozilla.org)]]
+    5. [[https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Functions/Arrow_functions][Arrow functions (developer.mozilla.org)]]
+*** Referencias Extraoficiales
+    1. [[https://carlosazaustre.es/jsx-para-novatos][JSX para navos (carlosazaustre.es)]]
+    2. [[https://lenguajejs.com/javascript/modulos/import/][Importación de módulos (lenguajejs.com)]]
+    3. [[https://www.arquitecturajava.com/que-es-un-javascript-bundle/][Que es un Javascript Bundle (arquitecturajava.com)]]
+    4. [[https://codesweetly.com/javascript-module-bundler][JavaScript Module Bundler (codesweetly.com)]]
+    5. [[https://snipcart.com/blog/javascript-module-bundler][Javascript Module Bundler (snipcart.com)]]
+    6. [[https://hpneo.dev/2020/07/15/estructuras-datos-react.html][Estructuras de datos para React (hpneo.dev)]]
 * Real DOM (Document Object Model)
 ** Conceptos
    - es la *interfaz gráfica* de un *documento web* (/las aplicaciones web/)
