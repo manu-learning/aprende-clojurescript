@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reactive Programming</title>
+    </head>
+    <body>
+        <button id="incremento">Incrementar contador!</button>
+        <button id="decremento">Decrementar contador!</button>
+    </body>
+
+    <script type="text/javascript">
+     const incremento = document.querySelector('#incremento');
+     const decremento = document.querySelector('#decremento');
+
+     let contador = 0;
+
+     incremento.addEventListener('click', onIncremento);
+     decremento.addEventListener('click', onDecremento);
+
+     function onIncremento(evento){
+         contador += 1;
+     }
+
+     function onDecremento(evento){
+         contador -= 1;
+     }
+    </script>
+</html>

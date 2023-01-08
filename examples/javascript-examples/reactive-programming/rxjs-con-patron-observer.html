@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reactive Programming</title>
+        <!-- en versiones más recientes de Rxjs cambió mucho -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.0.4/rx.min.js"></script>
+    </head>
+    <body>
+
+    </body>
+
+    <script type="text/javascript">
+     // --------------
+     // -- Ejemplo 1
+
+     // - next es un callback que recibiremos como notificación por suscribirnos al Observable
+     // - next nos notifica un valor del stream emitido por el Observable
+     // (en este caso nos devueve cada valor del array [1,2,3])
+     Rx.Observable.from([1,2,3]).subscribe(next => console.log(next));
+
+     // --------------
+     // -- Ejemplo 2
+
+     // el Observable es el productor, quien produce el flujo de datos (stream)
+     const unObservable = Rx.Observable.from([1,2,3]);
+
+     // un Observador es consumidor, debe suscribirse para recibir la notificación del Observable (un valor)
+     const observador1 = unObservable.subscribe(next => console.log(next));
+     const observador2 = unObservable.subscribe(next => console.log(next));
+     const observador3 = unObservable.subscribe(next => console.log(next));
+
+     // --------------
+     // -- Otros Ejemplos
+
+     // - stream significa flujo de datos,
+     // - podemos tener stream de array, rango de números, ...
+     const rangeStreamObservable = Rx.Observable.range(1,4);
+     const observador5 = rangeStreamObservable.subscribe(
+         next => console.log(next),
+         err => console.log(err),
+         () => console.log('terminamos de consumir los valores devueltos por el Observable de un rango...')
+     );
+
+     const arrayStreamObservable = Rx.Observable.from([1,2,3]);
+     const observador6 = arrayStreamObservable.subscribe(
+         next => console.log(next),
+         err => console.log(err),
+         () => console.log('terminamos de consumir los valores devueltos por el Observable de un array...')
+     );
+    </script>
+</html>
