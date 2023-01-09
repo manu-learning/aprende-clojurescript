@@ -13,6 +13,11 @@
         d (pad-zero (.getDate d))]
     (str y "-" m "-" d)))
 
+(defn contrato-laboral [codigo-empleado salario fecha-vigencia]
+  {:codigo-empleado codigo-empleado
+   :salario salario
+   :fecha-vigencia fecha-vigencia})
+
 (defn sueldo-inicial []
   {:codigo-empleado 0
    :salario-minimo 5000
@@ -22,7 +27,7 @@
 ;; porque desreferenció el estado de la app (state)
 (defonce state
   (r/atom {:inputs (sueldo-inicial)
-           :historial {}}))
+           :historial []}))
 
 ;; - podemos darle un valor por default usando la Estructura de Datos del state
 ;; agregando la entrada :value en el input que desreferencie al state
@@ -49,60 +54,44 @@
               :on-change #(swap! state assoc-in [:inputs :salario-minimo]
                                  (.. % -target -value))}]]))
 
-
 ;; 1. creamos el cursor antes de montar el componente (en el momento que usamos r/cursor .. y lo viculamos a la variable valor)
 ;; 2. desreferenciamos el cursor, haciendo al componente reactivo (en la entrada :value)
 ;; 3. actualizamos el estado de la app (state) a través del cursor (en la entrada :on-change)
 ;;
 ;; Reagent provides a utility called a cursor. A cursor acts like a reactive atom that points to a specific location inside another reactive atom. When the value at that location is updated, the cursor is updated, and any component that dereferences the cursor is updated
 ;;
+(defn render-input
+  ([keyword titulo] (render-input keyword titulo "text"))
+  ([keyword titulo tipo-input]
+   (let [valor (r/cursor state [:inputs keyword])]
+     (fn []
+       [:div {:class (str (:name keyword) " relative z-0 w-full mb-6 group")}
+        [:label {:class "peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"}
+         titulo]
+        [:input {:type tipo-input
+                 :value @valor
+                 :on-change #(reset! valor (.. % -target -value))
+                 :class "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"}]]))))
+
 (defn salario-minimo-input []
-  (let [valor (r/cursor state [:inputs :salario-minimo])]
-    (fn []
-      [:div.input-salario-minimo
-       [:label "Salario minimo"]
-       [:input {:type "number"
-                :value @valor
-                :on-change #(reset! valor
-                                   (.. % -target -value))}]])))
+  (render-input :salario-minimo "Salario mínimo"))
 
 (defn fecha-vigencia-input []
-  (let [valor (r/cursor state [:inputs :fecha-vigencia])]
-    (fn []
-      [:div.input-fecha-vigencia
-       [:label "Fecha vigencia"]
-       [:input {:type "date"
-                :value @valor
-                :on-change #(reset! valor
-                                    (.. % -target -value))}]])))
+  (render-input :fecha-vigencia "Fecha Vigencia de Contrato" "date"))
 
 (defn codigo-empleado-input []
-  (let [valor (r/cursor state [:inputs :codigo-empleado])]
-    (fn []
-      [:div.input-codigo-empleado
-       [:label "Código de Empleado"]
-       [:input {:type "number"
-                :value @valor
-                :on-change #(reset! valor
-                                    (.. % -target -value))}]])))
-
-(defn codigo-empleado-input* []
-  [:div.input-codigo-empleado
-   [:label "Código de Empleado"]
-   [:input {:type "number"}]])
+  (render-input :codigo-empleado "Código de Empleado"))
 
 (defn confirmar-button []
   [:div.actions
-   [:button {:type "submit"} "Confirmar"]])
+   [:button {:type "submit"
+             :class "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"} "Confirmar"]])
 
-;; TODO: el update-in en la fecha-vigencia debería crear un vector (por el momento es una lista)
 (defn confirmar-formulario [state]
   (let [{:keys [fecha-vigencia codigo-empleado salario-minimo]} (:inputs state)
-        fecha-actual (js/Date.now)]
+        fecha-actual (current-date-string (js/Date.))]
     (-> state
-        (update-in [:historial fecha-actual] #(conj % {:codigo-empleado codigo-empleado
-                                                       :salario salario-minimo
-                                                       :fecha-vigencia fecha-vigencia}))
+        (update-in [:historial] #(conj % (contrato-laboral codigo-empleado salario-minimo fecha-vigencia)))
         (assoc :inputs (sueldo-inicial)))))
 
 ;; podemos comentar con #_[componente]
@@ -117,19 +106,40 @@
    #_[posicion-laboral-input]
    [confirmar-button]])
 
-(defn render-historial-cambios-item [index cambio]
-  (let [{:keys [codigo-empleado]} cambio]
-    [:li
-     [:span index]
-     [:span codigo-empleado]]))
+(defn historial-cambios-listado-item [index cambio]
+  (let [{:keys [codigo-empleado salario fecha-vigencia]} cambio]
+    [:tr {:class "bg-white border-b dark:bg-gray-800 dark:border-gray-700"}
+     [:td {:scope "row"} (str "#" index)]
+     [:td {:scope "row"} codigo-empleado]
+     [:td {:scope "row"} fecha-vigencia]]))
 
+(defn historial-cambios-header []
+  [:thead {:class "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"}
+   [:tr
+    [:th "Nº Operación"]
+    [:th {:class "px-6 py-3"
+          :scope "col"}
+     "Código Empleado"]
+    [:th "Vigencia Contrato"]]])
+
+;; TODO: agregar algún feature de cálculo para aplicar ratom/make-reaction
 (defn historial-cambios []
   (let [historial (r/cursor state [:historial])]
-    [:p "Historial de cambios"]))
+    [:div
+     [:h1 "Historial de cambios"]
+     (if (empty? @historial)
+       [:p "no hay cambios"]
+       [:div
+        [:table {:class "w-full text-sm text-left text-gray-500 dark:text-gray-400"}
+         (historial-cambios-header)
+         [:tbody
+          (map-indexed (fn [index-cambio cambio] (historial-cambios-listado-item index-cambio cambio))
+                       @historial)]]])]))
 
 (defn app []
-  [:div
+  [:div {:class "block p-6 rounded-lg shadow-lg bg-white max-w-sm"}
    [formulario]
+   [:hr {:class "h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"}]
    [historial-cambios]])
 
 (rdom/render
