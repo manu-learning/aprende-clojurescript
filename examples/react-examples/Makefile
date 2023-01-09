@@ -1,4 +1,3 @@
-# TODO: automatizar con npx
 PUERTO=8000
 
 run:

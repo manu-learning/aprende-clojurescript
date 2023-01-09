@@ -12,7 +12,7 @@ init: install-npm-packages ## Inicializar proyecto
 
 # Nota: el doble $ es para que NO lo evalué como una macro de GNU Make
 r run: ## Ejecutar Servidor HTTP
-	$$(npm bin)/$(package-http-server) $(package-params)
+	$(npm_bin)/$(package-http-server) $(package-params)
 
 # Nota: alternativa, si el otro target run no funcione
 xrun: ## Ejecutar Servidor HTTP (alternativa)
