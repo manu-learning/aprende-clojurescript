@@ -1,5 +1,6 @@
 (ns ^:figwheel-hooks learn-cljs.salary-calculator
   (:require
+   [alandipert.storage-atom :refer [local-storage]]
    [goog.dom :as gdom]
    [goog.events :as gevents]
    [reagent.core :as r]
@@ -18,17 +19,19 @@
    :salario salario
    :fecha-vigencia fecha-vigencia})
 
-(defn sueldo-inicial []
-  {:codigo-empleado 0
-   :salario-minimo 5000
-   :fecha-vigencia (current-date-string (js/Date.))})
+(defn contrato-laboral-inicial []
+  (contrato-laboral 0 5000 (current-date-string (js/Date.))))
 
 ;; - cada vez que un componente cambie el estado de la app (state), Reagent volverá a renderizar a ese componente
 ;; porque desreferenció el estado de la app (state)
-(defonce state
-  (r/atom {:inputs (sueldo-inicial)
-           :historial []}))
+(defonce app-state (local-storage (r/atom {:inputs (contrato-laboral-inicial)
+                                       :historial []})
+                              :app-state))
 
+(comment
+  (defonce app-state
+    (r/atom {:inputs (contrato-laboral-inicial)
+             :historial []})))
 ;; - podemos darle un valor por default usando la Estructura de Datos del state
 ;; agregando la entrada :value en el input que desreferencie al state
 ;;
@@ -50,8 +53,8 @@
     [:div.input-salario-minimo
      [:label "Salario minimo"]
      [:input {:type "number"
-              :value (get-in @state [:inputs :salario-minimo])
-              :on-change #(swap! state assoc-in [:inputs :salario-minimo]
+              :value (get-in @app-state [:inputs :salario-minimo])
+              :on-change #(swap! app-state assoc-in [:inputs :salario-minimo]
                                  (.. % -target -value))}]]))
 
 ;; 1. creamos el cursor antes de montar el componente (en el momento que usamos r/cursor .. y lo viculamos a la variable valor)
@@ -63,7 +66,7 @@
 (defn render-input
   ([keyword titulo] (render-input keyword titulo "text"))
   ([keyword titulo tipo-input]
-   (let [valor (r/cursor state [:inputs keyword])]
+   (let [valor (r/cursor app-state [:inputs keyword])]
      (fn []
        [:div {:class (str (:name keyword) " relative z-0 w-full mb-6 group")}
         [:label {:class "peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"}
@@ -92,13 +95,13 @@
         fecha-actual (current-date-string (js/Date.))]
     (-> state
         (update-in [:historial] #(conj % (contrato-laboral codigo-empleado salario-minimo fecha-vigencia)))
-        (assoc :inputs (sueldo-inicial)))))
+        (assoc :inputs (contrato-laboral-inicial)))))
 
 ;; podemos comentar con #_[componente]
 (defn formulario []
   [:form {:on-submit (fn [evento]
                        (.preventDefault evento)
-                       (swap! state confirmar-formulario))}
+                       (swap! app-state confirmar-formulario))}
    [codigo-empleado-input]
    [fecha-vigencia-input]
    [salario-minimo-input]
@@ -124,7 +127,7 @@
 
 ;; TODO: agregar algún feature de cálculo para aplicar ratom/make-reaction
 (defn historial-cambios []
-  (let [historial (r/cursor state [:historial])]
+  (let [historial (r/cursor app-state [:historial])]
     [:div
      [:h1 "Historial de cambios"]
      (if (empty? @historial)
