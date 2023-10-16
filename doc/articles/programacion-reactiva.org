@@ -1,6 +1,14 @@
-#+TITLE: (RP) Programación Reactiva + Programación Funcional Reactiva (FRP)
-* Sistemas Reactivos
-** Conceptos
+* Programación Reactiva                       :reactive_programming:rp:frp:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Sistemas Reactivos
+*** Conceptos
    - Utilizar *programación reactiva* no implíca que el sistema sea reactivo
    - Las cualidades de diseño que los caracterizan son
      1) Más flexibles
@@ -8,18 +16,18 @@
      3) Más tolerantes a fallos
      4) Más escalables
      5) Altamente responsivos
-** Cualidades de Diseño
-*** Responsivos
+*** Cualidades de Diseño
+**** Responsivos
     - Los problemas son detectados de forma rápida y manejados de forma eficiente
     - Proveen *tiempos de respuesta* rápidos y consistentes
-*** Resilientes
+**** Resilientes
     - Permanecen *responsivos* ante cualquier fallo (/si ante el primer fallo deja de ser responsivo, entonces no cumple con ser resiliente/)
     - Los fallos (failure) son manejados dentro de cada *componente* y tratandolos de forma *aislada* (isolation) para no afectar al resto del sistema
-*** Elásticos
+**** Elásticos
     - Permanecen *responsivos* ante cambios en la *carga de trabajo* (cantidad de peticiones/request al sistema)
     - Reducen/Incrementan los recursos para manejar la *carga de trabajo*
     - Capacidad para *replicar ó dividir componentes* para *distribuir las peticiones* entre ellos
-*** Orientados a Mensajes
+**** Orientados a Mensajes
     - El *intercambio de mensajes* entre los componentes es *Asíncrono* (comunicación NO-bloqueante)
       1) asegura bajo acoplamiento
       2) asegura aislamiento
@@ -37,11 +45,10 @@
        1) no tiene el celular encendido (no esta activo)
        2) luego enciende el celular, abre la aplicación de mensajería (está activo) entonces es notificado de los mensajes
     #+END_QUOTE
-** Referencias
-*** Referencias Oficiales
+*** Referencias
+**** Referencias Oficiales
     1. [[https://www.reactivemanifesto.org/es][Manifiesto de Sistemas Reactivos (reactivemanifesto.org)]]
     2. [[https://www.reactivemanifesto.org/glossary#Failure][Glosario de Manifiesto de Sistemas Reactivos (reactivemanifesto.org)]]
-* Programación Reactiva
 ** Conceptos
    - Un programa reactivo *reacciona a cada cambio*
    - La *programación reactiva* se basa en
@@ -267,184 +274,3 @@
     4. [[https://emanuelpeg.blogspot.com/2021/09/programacion-reactiva.html][Programación reactiva (emanuelpeg.blogspot.com)]]
     5. [[https://softwarecrafters.io/javascript/introduccion-programacion-reactiva-rxjs][Intro programación reactiva con rxjs (softwarecrafters.io)]]
     6. [[http://ferestrepoca.github.io/paradigmas-de-programacion/reactive/reactive_teoria/index.html][Que es la programación reactiva (ferestrepoca.github.io)]]
-* TODO (RP) Programación Reactiva Vs Programación Proactiva
-** TODO Ejemplos
-*** Ejemplo 1 - Programación Proactiva
-    #+BEGIN_SRC javascript
-    // Solución proactiva haría algo similar a lo siguiente
-    let lampara: Lampara = new Lampara()
-    let switchLampara: SwitchLampara = new SwitchLampara(lampara)
-    switchLampara.presionar() // la lámpara depende de otra entidad que haga lampara.encender() para que ésta se encienda
-    #+END_SRC
-
-    #+BEGIN_SRC javascript
-      class Lampara{
-          encendida: boolean;
-
-          constructor(){
-              this.encendida = false;
-          }
-
-          public estaEncendida(){
-              return this.encendida;
-          }
-
-          public encender(){
-              this.encendida = true;
-              console.log('lampara encendida');
-
-          }
-          public apagar(){
-              this.encendida = false;
-              console.log('lampara apagada');
-          }
-      }
-
-      class SwitchLampara{
-          lampara?: Lampara;
-
-          constructor(_lampara: Lampara){
-              lampara = _lampara;
-          }
-
-          public presionar(){
-              console.log('presioné el switch');
-
-              if(lampara.estaEncendida())
-                  lampara.apagar()
-              else
-                  lampara.encender();
-          }
-      }
-
-      let lampara: Lampara = new Lampara();
-      let switchNuevo:SwitchLampara = new SwitchLampara(lampara);
-      switchNuevo.presionar()
-    #+END_SRC
-** Referencias
-*** Referencias Extraoficiales
-    1. [[https://blog.danlew.net/2017/07/27/an-introduction-to-functional-reactive-programming/][An intro to functional reactive programming (blog.danlew.net)]]
-    2. [[https://medium.com/leantaas-engineering/reactive-vs-proactive-programming-with-rxjs-a1a7c126ebbd][Reactive Vs Proactive Programming with RxJS (medium.com/leantaas-engenieering)]]
-* TODO (FRP) Programación Funcional Reactiva
-** Conceptos
-  - La (FRP) *Programación Funcional Reactiva* es una combinación entre
-    1) la (FP) Programación Funcional pura
-    2) la (RP) Programación Reactiva
-  - Es común en aplicaciones web que interactúan con el usuario porque
-    1) si utilizamos un modelo con (FP) Programación Funcional Pura necesitamos algunas operaciones con *side-effects* (funciones impuras)
-    2) necesitamos operaciones con *side-effects* que modifiquen *elementos UI* del *DOM* (documento html)
-
-  #+BEGIN_QUOTE
-  Es útil en aplicaciones web modernas que tiene un alto nivel de interacción con
-  *ocurrencias de eventos UI* (UI Event) relacionados con *ocurrencias de eventos de datos* (Data Event ó Data Stream)
-
-  Un ejemplo es cuando hacemos click a *Like* a la aplicación de Facebook
-  #+END_QUOTE
-** TODO Ejemplos
-   #+BEGIN_COMMENT
-   faltaría definir ejemplos
-   #+END_COMMENT
-** Referencias
-*** Referencias Oficiales
-    1. [[https://cljdoc.org/d/frp/frp/0.1.3/doc/the-introduction-to-functional-reactive-programming-you-ve-been-missing][The introduction to Functional Reactive Programming (cljdoc.org)]]
-*** Referencias Extraoficiales
-    1. [[https://blog.danlew.net/2017/07/27/an-introduction-to-functional-reactive-programming/][An introduction to functional reactive programming (blog.danlew.net)]]
-    2. [[https://medium.com/android-news/how-to-wrap-your-imperative-brain-around-functional-reactive-programming-in-rxjava-91ac89a4eccf][Functional reactive programming in RxJava (medium.com/android-news)]]
-* (RP) Programación Reactiva Vs (FRP) Programación Funcional Reactiva
-  #+BEGIN_QUOTE
-  La diferencia con la (RP) *Programación Reactiva*
-  con la (FRP) es que *reacciona ante los Streams* con *funciones puras*
-  (/una función pura no produce side-effect, sólo depende de sus parámetros de entrada y no del factores externos como un estado global/)
-
-  En (Rx) ReactiveX las *funciones puras* se denominan *operadores*,
-  estos se aplican sobre un *sujeto observable* y devuelven otro *sujeto observable*
-  #+END_QUOTE
-* Reactive Extensions (Rx, ReactiveX)
-** Conceptos
-   - es una implementación de la *programación reactiva* por alguna biblioteca en algún lenguaje de programación
-   - es una combinación entre
-     - el patrón observer
-     - el patrón iterator
-     - la programación funcional reactiva
-** Patrón Observer
-*** Operaciones de un Sujeto Observable (Observado)
-    1) aceptar las *subscripciones* que reciban (/de los observers/)
-*** Operaciones de un Observador/Suscriptor
-    1) *Reaccionar* al siguiente valor del *flujo de datos* (data stream) con la operación ~next~
-    2) *Reaccionar* cuando el *flujo de datos* informe que se ha completado con la operación ~complete~
-    3) *Reaccionar* cuando hay un error en el *flujo de datos* con la operación ~error~
-** Operadores
-*** Conceptos
-    - Son *funciones puras* que transforman (Data Stream ó Event Stream) *flujos de datos* (/devuelven un nuevo data stream no modifican el original/)
-    - Algunos operadores transforman un objeto ó una colección en un (Data Stream ó Event Stream) para manipularlos con el resto de los operadores
-*** Tipos de Operadores
-    |---------------+------------------------------------------------------------------------------------------------------|
-    | Operador RxJS | Descripción                                                                                          |
-    |---------------+------------------------------------------------------------------------------------------------------|
-    | of            | transforma un objeto en un sujeto observable                                                         |
-    | merge         | agrupa varios objetos y los convierte en un sujeto observable                                        |
-    | range         | crea un sujeto observable que emite números enteros entre un rango de valores                        |
-    | from          | transforma una colección de objetos (ó estructuras de datos) en un sujeto observable                 |
-    | interval      | crea un sujeto observable que emite valores cada cierto intervalo de tiempo                          |
-    |---------------+------------------------------------------------------------------------------------------------------|
-    | filter        | filtra los valores que emitirá el sujeto observable (sólo los que cumplan la condición de predicado) |
-    | map           | transforma los elementos emeitidos por el sujeto observable, aplicando una función a cada elemento   |
-    |---------------+------------------------------------------------------------------------------------------------------|
-    | pipe          | para encadenar varios operadores RxJs                                                                |
-    |---------------+------------------------------------------------------------------------------------------------------|
-*** Ejemplos en RxJS
-    #+BEGIN_SRC javascript
-      import {Usuario} from "./model/usuario"
-      import {of, range, interval, merge, take, filter, from} from "rxjs"
-
-      // suponiendo que tenemos la clase Usuario que importamos del archivo ./model/usuario.js
-      let usuario1 = new Usuario();
-      usuario1.idUsuario = 1
-      usuario1.nombre = "Jean Luc"
-      usuario1.velocidad = 100
-
-      let usuario2 = new Usuario();
-      usuario2.idUsuario = 2
-      usuario2.nombre = "William"
-      usuario2.velocidad = 200
-
-      let obs1 = of(usuario1)
-      let obs2 = of(usuario2)
-
-      // merge es un operador de combinación
-      const listadoPersonajesObservados = merge(obs1, obs2).subscribe(x => console.log('datos del personaje ', x));
-
-      // operador range: crea un Sujeto Observable que emite un números enteros entre un rango de valores
-      const televidenteObservador = range(1,5).subscribe(x => console.log('número de la loteria:', x));
-
-      // operador from: convierte una colección objetos ó una colección de estructuras de datos en un Sujeto Observable
-      const listadoEntrevistadosObservable = from([usuario1, usuario2]);
-      const entrevistadorObservador = listadoEntrevistadosObservable.subscribe(x => console.log('entrevisté a ', x));
-
-      const listadoNumerosDeLaSuerteObservable = from([10,20,39]);
-      const estudianteObservador = listadoNumerosDeLaSuerteObservable.subscribe(x => console.log('memorizando numero de la suerte ', x));
-
-      // operador interval: Crea un observable que emite valores cada cierto intervalo de tiempo (en este caso cada 1 segundo)
-      const observador5 = interval(1000).subscribe(x => console.log(x));
-
-      // pipe: cada vez que usaremos otro operador aparte del from
-      // operador filter: sólo emitirá los valores que cumplen la condición del predicado
-      const suscripcionPersonajesMasRapidos = listadoPersonajesObservables
-            .pipe(filter(usuario => usuario.velocidad > 500))
-            .subscribe(usuario => console.log('un personaje veloz es ', usuario.nombre));
-
-      const suscripcionPersonajesMasLentos = listadoPersonajesObservables
-            .pipe(filter(usuario => usuario.velocidad < 500));
-            .pipe(take(1))
-          .subscribe(usuario => console.log('un personaje lento es ', usuario.nombre));
-
-      const suscripcionPersonajesEvolucionados = listadoPersonajesObservables
-            .pipe(map(usuario => usuario.velocidad * 2))
-            .subscribe(dobleDeVelocidad => console.log('Velocidad doble: ', dobleDeVelocidad));
-    #+END_SRC
-** Referencias
-*** Referencias Oficiales
-    1. [[https://reactivex.io/intro.html][ReactiveX (reactivex.io)]]
-    2. [[https://reactivex.io/documentation/operators.html][Operators (reactivex.io)]]
-*** Referencias Extraoficiales
-    1. [[https://thatcsharpguy.com/post/reactiva][La programación reactiva (thatcsharpguy.com)]]

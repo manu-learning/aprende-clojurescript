@@ -1,0 +1,18 @@
+* Programación Reactiva Vs Programacion Funcional Reactiva         :rp:frp:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Conceptos
+  #+BEGIN_QUOTE
+  La diferencia con la (RP) *Programación Reactiva*
+  con la (FRP) es que *reacciona ante los Streams* con *funciones puras*
+  (/una función pura no produce side-effect, sólo depende de sus parámetros de entrada y no del factores externos como un estado global/)
+
+  En (Rx) ReactiveX las *funciones puras* se denominan *operadores*,
+  estos se aplican sobre un *sujeto observable* y devuelven otro *sujeto observable*
+  #+END_QUOTE

@@ -1,0 +1,66 @@
+* Programación Proactiva Vs Programación Reactiva   :rp:proactive:reactive:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** TODO Ejemplos
+*** Ejemplo 1 - Programación Proactiva
+    #+BEGIN_SRC javascript
+    // Solución proactiva haría algo similar a lo siguiente
+    let lampara: Lampara = new Lampara()
+    let switchLampara: SwitchLampara = new SwitchLampara(lampara)
+    switchLampara.presionar() // la lámpara depende de otra entidad que haga lampara.encender() para que ésta se encienda
+    #+END_SRC
+
+    #+BEGIN_SRC javascript
+      class Lampara{
+          encendida: boolean;
+
+          constructor(){
+              this.encendida = false;
+          }
+
+          public estaEncendida(){
+              return this.encendida;
+          }
+
+          public encender(){
+              this.encendida = true;
+              console.log('lampara encendida');
+
+          }
+          public apagar(){
+              this.encendida = false;
+              console.log('lampara apagada');
+          }
+      }
+
+      class SwitchLampara{
+          lampara?: Lampara;
+
+          constructor(_lampara: Lampara){
+              lampara = _lampara;
+          }
+
+          public presionar(){
+              console.log('presioné el switch');
+
+              if(lampara.estaEncendida())
+                  lampara.apagar()
+              else
+                  lampara.encender();
+          }
+      }
+
+      let lampara: Lampara = new Lampara();
+      let switchNuevo:SwitchLampara = new SwitchLampara(lampara);
+      switchNuevo.presionar()
+    #+END_SRC
+** Referencias
+*** Referencias Extraoficiales
+    1. [[https://blog.danlew.net/2017/07/27/an-introduction-to-functional-reactive-programming/][An intro to functional reactive programming (blog.danlew.net)]]
+    2. [[https://medium.com/leantaas-engineering/reactive-vs-proactive-programming-with-rxjs-a1a7c126ebbd][Reactive Vs Proactive Programming with RxJS (medium.com/leantaas-engenieering)]]

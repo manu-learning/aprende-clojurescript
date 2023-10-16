@@ -1,0 +1,31 @@
+* Pilares Código Recargable                     :pilares:codigo_recargable:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Conceptos
+   - Obtendremos un código más mantenible y más robusto como cualidades
+** Defonce (Def Once)
+ - ~defonce~ es similar a ~def~ pero víncula/bindea un valor a una variable sólo una vez
+ - por lo general se utiliza para manejar un estado consistente de la aplicación
+ - la variable se define una única vez (/NO se redefinirá/)
+ - la expresión vinculada/bindeada a la variable se evalúa una única vez (/apesar que el código se modifique y sea recargado/)
+
+ #+BEGIN_QUOTE
+ útil si hacemos pequeños cambios
+ Ej. validaciones en un formulario y no queremos volver a completarlo todo de nuevo
+ #+END_QUOTE
+** Funciones idempotentes
+   - son funciones que tienen el mismo efecto sin importar las veces que sean llamadas
+
+   #+BEGIN_QUOTE
+   una función idempotente sería una que modifica un atributo
+
+   una función que NO es idempotente, es aquella que inserta varios elemento-hijo en un elemento-padre,
+   sin verificar si éste ya se introdujo (una previa validación si existe el elemento-hijo la haría idempotente)
+   #+END_QUOTE
+** TODO Separar Lógica de Negocio/Lógica Renderizado

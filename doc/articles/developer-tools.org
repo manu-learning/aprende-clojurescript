@@ -1,0 +1,12 @@
+* Developer Tools                                              :cljs:tools:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Referencias
+  1. [[https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html][New react developer tools (reactjs.org)]]
+  2. [[https://practical.li/clojurescript/install/browser-devtools.html][Browser DevTools (practical.li)]]

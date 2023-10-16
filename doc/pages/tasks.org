@@ -1,0 +1,176 @@
+* Tasks
+** TODO [#A] Configuración Cider Emacs Cljs                      :cider:cljs:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+  1. https://stackoverflow.com/questions/73721111/how-to-make-the-connection-between-emacs-cider-and-shadow-cljs-be-less-repetit
+  2. https://lambdaisland.com/blog/2019-12-21-advent-of-parens-21-project-config-dir-locals
+** TODO [#A] Configurar REPL y autocompletado de cljs en Spacemacs     :repl:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+  1. [[https://clojurescript.org/reference/repl-and-main][ClojureScript - The REPL and main entry points (clojurescript.org)]]
+  2. https://practical.li/spacemacs/reference/cider/configuration-variables.html
+  3. https://practical.li/spacemacs/alternative-tooling/joker.html
+  4. https://clojurians-log.clojureverse.org/cider/2020-11-12
+  5. https://practical.li/spacemacs/clojure-repl/
+  6. https://github.com/bhauman/figwheel-main-template
+  7. https://practical.li/clojurescript/figwheel-main-projects/
+** TODO [#A] ClojureScript REPL                                   :cljs:repl:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+  1. https://clojurescript.io/
+  2. https://devz.mx/clojurescript-sin-atajos-fase-3/
+  3. https://medium.com/memorias-de-un-techie/empezando-a-jugar-con-clojure-7fa1c035a555
+** TODO [#B] Ejemplo integrador 1 de Reagent                        :reagent:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   #+BEGIN_QUOTE
+   https://www.learn-clojurescript.com/section-5/lesson-28-using-react-via-reagent/
+
+   "We create reactive atoms for the A and B cells using reagent.core/atom,
+   which act like regular atoms that can propagate changes to other computations the rely upon them"
+   #+END_QUOTE
+** TODO [#B] Reagent - Cljs + React                                 :reagent:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+  #+BEGIN_QUOTE
+  Reagent es una biblioteca que permite usar Reactjs a través de Clojurescript,
+  por ende si ya estas acostumbrado a usar Clojure, clojurescript sería similar y podrías usar React a través de Reagent
+  #+END_QUOTE
+
+  1. https://dzone.com/articles/realtime-react-coding-in-clojurescript-autumn-2022
+  2. https://blog.koalite.com/2014/09/reagent-una-liberia-para-usar-reactjs-desde-clojurescript/
+  3. https://devz.mx/clojurescript-sin-atajos-fase-4/
+  4. https://www.learn-clojurescript.com/section-5/lesson-28-using-react-via-reagent/
+** TODO [#B] Reagent Template                                       :reagent:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   https://github.com/reagent-project/reagent-template
+** TODO [#B] Shadow Cljs Vs Figwheel                   :shadow_cljs:figwhell:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+** TODO [#C] Clasificar cursos, videotutoriales              :videos:courses:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+   1. https://www.youtube.com/watch?v=M73OkuEWIcQ
+   2. https://www.youtube.com/watch?v=CjdVNCQ7YHA&list=PLI-mrGTUXmHXeKhy6UGdDxIKwM8L4MTbq
+   3. https://www.youtube.com/watch?v=6uUynWkMDGM&list=PLqunUpREWrwKdi3DEkTnIia54JjnWk8JB
+   4. https://www.youtube.com/watch?v=C-kF25fWTO8&list=PLq1pyM--m7oC7mMreJLnqsVkkgihI7ANd
+** SOMEDAY Links de Programación Reactiva                                :rp:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   1. https://medium.com/naranja-tech/arquitectura-reactiva-parte-1-eb0d03524f16
+   2. https://ibm-cloud-architecture.github.io/refarch-eda/advantages/reactive/
+   3. https://www.lightbend.com/white-papers-and-reports/reactive-programming-versus-reactive-systems
+   4. https://developer.lightbend.com/docs/introduction/traditional-architecture.html
+   5. https://osmancea.medium.com/programaci%C3%B3n-reactiva-en-javascript-997478d45bfb
+   6. https://www.enmilocalfunciona.io/programacion-reactiva-con-rxjs/
+   7. https://thatcsharpguy.com/post/reactiva
+   8. https://temperies.com/2022/08/16/programacion-reactiva/
+   9. https://emanuelpeg.blogspot.com/2021/09/programacion-reactiva.html (me interesa solo la parte de flujo de datos)
+   10. https://hmong.es/wiki/Reactive_programming
+   11. https://www.enmilocalfunciona.io/programacion-reactiva-con-rxjs/
+** SOMEDAY Configuración Shadow Cljs                       :cljs:shadow_cljs:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+  1. https://shadow-cljs.github.io/docs/UsersGuide.html#repl-troubleshooting
+  2. https://github.com/clojure-emacs/cider/blob/master/doc/modules/ROOT/pages/cljs/shadow-cljs.adoc
+  3. https://docs.cider.mx/cider/cljs/shadow-cljs.html
+  4. https://clojurians-log.clojureverse.org/shadow-cljs/2020-10-13
+  5. https://shadow-cljs.github.io/docs/UsersGuide.html#_embedded_nrepl_server
+  6. https://clojureverse.org/t/add-shadow-cljs-to-existing-leiningen-project/6827
+  7. https://gitlab.com/nikperic/lein-shadow
+** SOMEDAY Configuración Re-Frame                                  :re_frame:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+  1. https://github.com/day8/re-frame-template/blob/master/src/leiningen/new/re_frame/README.md
+** SOMEDAY Material Design M3                                           :css:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   1. https://m3.material.io/
+** SOMEDAY Data Driven Forms                                     :json:react:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   1. https://data-driven-forms.org/introduction
+** SOMEDAY Sistema ERP                                           :erp:system:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   1. https://www.ticportal.es/temas/enterprise-resource-planning/que-es-sistema-erp
+   2. https://github.com/wp-erp/wp-erp
+   3. https://github.com/inoerp/inoERP
+   4. https://github.com/grocy/grocy
+   5. https://github.com/idurar/erp-crm
+   6. https://www.altamira.ai/blog/erp-development-php-node/
+   7. https://erpmeaning.com/erp/nodejs-erp-open-source/
+** SOMEDAY Clojure + TADAM (Competencia de ReactJS)              :cljs:tadam:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+  1. https://www.tadam-framework.dev/#main
+** ReduxJS                                                       :js:redux:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+   1. https://es.redux.js.org/
+** Agregar Libros
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+  1. https://clojurescript.org/community/books
+  2. https://www.amazon.com/Reactive-ClojureScript-Recipes-Functional-Programming/dp/1484230086
+  3. https://www.amazon.com/Clojure-Reactive-Programming-Asynchronous-Applications/dp/1783986662
+  4. [[https://www.learn-clojurescript.com][Learn Clojurescript (Andrew Meredith)]]
+  5. [[https://funcool.github.io/clojurescript-unraveled/][ClojureScript Unraveled, 2nd edition (funcool.github.io)]]
+  6. https://www.linuxlinks.com/excellent-free-books-learn-clojurescript/
+** Agregar Tutoriales
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+  1. https://www.youtube.com/watch?v=MQmdWSh2FG4&ab_channel=BetweenTwoParens
+** Agregar Bibliotecas y Frameworks
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :END:
+
+   1. [[https://reagent-project.github.io/][Reagent, minimalistic react for clojurescript]]
+   2. [[https://github.com/slagyr/speclj][Speclj, TDD/BDD framework for clojure]]
+   3. [[https://github.com/hantuzun/awesome-clojurescript][List of Clojurescript frameworks, libraries and wrappers]]

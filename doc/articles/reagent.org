@@ -1,13 +1,28 @@
-#+TITLE: Reagent
-* TODO Conceptos
-* TODO Funciones Utiles
-** make-reaction
-*** Conceptos
+* Reagent                                                         :reagent:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** TODO Conceptos
+  #+BEGIN_QUOTE
+  Whenever the user makes a change in the input, we want to propagate that change back to state, which will cause our component to re-render.
+  Both React and Reagent refer to this type of input handling as controlled inputs because the value of an input is controlled by UI state.
+  The simplest way to create a controlled input component is to use a slight variation of a Reagent component.
+
+  We simply need to dereference the state atom within our input components, and they will automatically re-render whenever the state changes.
+  #+END_QUOTE
+** TODO Funciones Utiles
+*** make-reaction
+**** Conceptos
    - la sintáxis es de la forma ~(make-reaction funcion)~
    - es una función del namespace ~reagent.ratom~
    - para relacionar ~reactive atoms~ y depende de ellos
    - ~make-reaction~ se actualiza/evalúa cuando los ~reactive atoms~ cambian su estado
-*** Ejemplos
+**** Ejemplos
     #+BEGIN_SRC clojurescript
       (ns example
         (:require
@@ -23,13 +38,13 @@
         (ratom/make-reaction
          #(+ @celda-a @celda-b)))
     #+END_SRC
-** run!
-*** Conceptos
+*** run!
+**** Conceptos
     - la sintáxis es de la forma ~(run! & cuerpo)~
     - es una función del namespace ~reagent.ratom~
     - ~run!~ se ejecuta cada vez que algún *átomo* sea *dereferenciado* en el cuerpo
     - el ~cuerpo~ debería generar *side-effect*
-*** Ejemplos
+**** Ejemplos
     #+BEGIN_SRC clojurescript
       (ns example
         (:require
@@ -48,13 +63,13 @@
       (ratom/run!
        (set! (.-value render-celda-c) @celda-c))
     #+END_SRC
-** render
-*** Conceptos
+*** render
+**** Conceptos
     - es una función del Namespace ~ragent.dom~
     - la sintáxis es de la forma ~(reagent.dom/render componente-de-reagent nodo-del-DOM)~
       1) ~componente-de-reagent~
       2) ~nodo-del-DOM~ que hayamos obtenido (Ej. con ~(goog.dom/getElement id-elemento-del-dom)~)
-*** Ejemplos
+**** Ejemplos
     #+BEGIN_SRC clojurescript
       (ns example
         (:require
@@ -68,8 +83,8 @@
        hola
        (gdom/getElement "app"))
     #+END_SRC
-* TODO Ejemplos Integradores
-** TODO Ejemplo 1 - Simulación una Celda calculada de una Hoja de Calculo
+** TODO Ejemplos Integradores
+*** TODO Ejemplo 1 - Simulación una Celda calculada de una Hoja de Calculo
    #+BEGIN_SRC clojurescript
      (ns example
        (:require
@@ -79,9 +94,17 @@
         [reagent.ratom :as ratom]
         [reagent.dom :as rdom]))
 
-     ;; datos
+     ;; la función (atom) del namespace reagent.core
+     ;; - crear átomos reactivos, que propagan cambios al sistema (a nuestra aplicación)
+     ;; - el concepto de "propagar cambios" es similar a "notificar a una parte del sistema que ocurrió un cambio de estado ó un evento"
+     ;; (en nuestro caso notifican al sistema cuando cambian de estado)
+
+     ;; - declara variables, cada una con un átomo reactivo
      (def celda-a (r/atom 0))
      (def celda-b (r/atom 0))
+
+     ;; declaramos una variable que actúa como un átomo reactivo,
+     ;; pero su valor resulta de otros átomos reactivos
      (def celda-c
        (ratom/make-reaction
         #(+ @celda-a @celda-b)))
@@ -91,14 +114,16 @@
      (def render-celda-b (gdom/getElement "celda-b"))
      (def render-celda-c (gdom/getElement "celda-c"))
 
+     ;; - función handler del evento "change"
+     ;; - cambia el estado de los átomos reactivos
      (defn actualizar-celda [celda]
        (fn [evento]
          (let [valor (js/parseInt (.. evento -target -value))]
            (reset! celda valor))))
 
-     ;; FUNCIÓN (listen) del namespace goog.events
+     ;; Análisis basado en la(FRP) Programación Funcional Reactiva
      ;;
-     ;; si asociamos la función (listen) con el patrón Observer..
+     ;; asociamos la función (listen) del namespace goog.events con el patrón Observer..
      ;; - con listen nos Suscribimos al cambio de Estado del elemento UI del DOM (porque en realidad un elemento del DOM es un objeto javascript y tienen Estado Interno)
      ;; - con listen nos Suscribimos al Evento "change", cuando el evento devuelva un valor nos notifica que hubo un cambio
      ;;
@@ -118,10 +143,14 @@
      (gevents/listen render-celda-a "change" (actualizar-celda celda-a))
      (gevents/listen render-celda-b "change" (actualizar-celda celda-b))
 
+     ;; run! función del namespace reagent.ratom
+     ;; - se ejecuta cada vez que "cambie el estado de cualquier átomo desreferenciado" dentro del cuerpo de la función (run!)
+     ;; en nuestro caso el átomo reactivo llamado "celda-c"
+     ;; - cada vez que cambie el estado del átomo reactivo "celda-c", cambiamos el valor del "elemento UI" vinculado a la variable "celda-c"
      (ratom/run!
       (set! (.-value render-celda-c) @celda-c))
    #+END_SRC
-** TODO Ejemplo 2 - Calculadora Binaria
-* Referencias
-** Referencias Oficiales
+*** TODO Ejemplo 2 - Calculadora Binaria
+** Referencias
+*** Referencias Oficiales
    1. [[https://ericnormand.me/guide/reagent][ClojureScript + Reagent (ericnormand.me)]]

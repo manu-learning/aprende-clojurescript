@@ -1,0 +1,97 @@
+* Reactive Extensions                               :rx:reactivex:reactive:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Conceptos
+   - es una implementación de la *programación reactiva* por alguna biblioteca en algún lenguaje de programación
+   - es una combinación entre
+     - el patrón observer
+     - el patrón iterator
+     - la programación funcional reactiva
+** Patrón Observer
+*** Operaciones de un Sujeto Observable (Observado)
+    1) aceptar las *subscripciones* que reciban (/de los observers/)
+*** Operaciones de un Observador/Suscriptor
+    1) *Reaccionar* al siguiente valor del *flujo de datos* (data stream) con la operación ~next~
+    2) *Reaccionar* cuando el *flujo de datos* informe que se ha completado con la operación ~complete~
+    3) *Reaccionar* cuando hay un error en el *flujo de datos* con la operación ~error~
+** Operadores
+*** Conceptos
+    - Son *funciones puras* que transforman (Data Stream ó Event Stream) *flujos de datos* (/devuelven un nuevo data stream no modifican el original/)
+    - Algunos operadores transforman un objeto ó una colección en un (Data Stream ó Event Stream) para manipularlos con el resto de los operadores
+*** Tipos de Operadores
+    |---------------+------------------------------------------------------------------------------------------------------|
+    | Operador RxJS | Descripción                                                                                          |
+    |---------------+------------------------------------------------------------------------------------------------------|
+    | of            | transforma un objeto en un sujeto observable                                                         |
+    | merge         | agrupa varios objetos y los convierte en un sujeto observable                                        |
+    | range         | crea un sujeto observable que emite números enteros entre un rango de valores                        |
+    | from          | transforma una colección de objetos (ó estructuras de datos) en un sujeto observable                 |
+    | interval      | crea un sujeto observable que emite valores cada cierto intervalo de tiempo                          |
+    |---------------+------------------------------------------------------------------------------------------------------|
+    | filter        | filtra los valores que emitirá el sujeto observable (sólo los que cumplan la condición de predicado) |
+    | map           | transforma los elementos emeitidos por el sujeto observable, aplicando una función a cada elemento   |
+    |---------------+------------------------------------------------------------------------------------------------------|
+    | pipe          | para encadenar varios operadores RxJs                                                                |
+    |---------------+------------------------------------------------------------------------------------------------------|
+*** Ejemplos en RxJS
+    #+BEGIN_SRC javascript
+      import {Usuario} from "./model/usuario"
+      import {of, range, interval, merge, take, filter, from} from "rxjs"
+
+      // suponiendo que tenemos la clase Usuario que importamos del archivo ./model/usuario.js
+      let usuario1 = new Usuario();
+      usuario1.idUsuario = 1
+      usuario1.nombre = "Jean Luc"
+      usuario1.velocidad = 100
+
+      let usuario2 = new Usuario();
+      usuario2.idUsuario = 2
+      usuario2.nombre = "William"
+      usuario2.velocidad = 200
+
+      let obs1 = of(usuario1)
+      let obs2 = of(usuario2)
+
+      // merge es un operador de combinación
+      const listadoPersonajesObservados = merge(obs1, obs2).subscribe(x => console.log('datos del personaje ', x));
+
+      // operador range: crea un Sujeto Observable que emite un números enteros entre un rango de valores
+      const televidenteObservador = range(1,5).subscribe(x => console.log('número de la loteria:', x));
+
+      // operador from: convierte una colección objetos ó una colección de estructuras de datos en un Sujeto Observable
+      const listadoEntrevistadosObservable = from([usuario1, usuario2]);
+      const entrevistadorObservador = listadoEntrevistadosObservable.subscribe(x => console.log('entrevisté a ', x));
+
+      const listadoNumerosDeLaSuerteObservable = from([10,20,39]);
+      const estudianteObservador = listadoNumerosDeLaSuerteObservable.subscribe(x => console.log('memorizando numero de la suerte ', x));
+
+      // operador interval: Crea un observable que emite valores cada cierto intervalo de tiempo (en este caso cada 1 segundo)
+      const observador5 = interval(1000).subscribe(x => console.log(x));
+
+      // pipe: cada vez que usaremos otro operador aparte del from
+      // operador filter: sólo emitirá los valores que cumplen la condición del predicado
+      const suscripcionPersonajesMasRapidos = listadoPersonajesObservables
+            .pipe(filter(usuario => usuario.velocidad > 500))
+            .subscribe(usuario => console.log('un personaje veloz es ', usuario.nombre));
+
+      const suscripcionPersonajesMasLentos = listadoPersonajesObservables
+            .pipe(filter(usuario => usuario.velocidad < 500));
+            .pipe(take(1))
+          .subscribe(usuario => console.log('un personaje lento es ', usuario.nombre));
+
+      const suscripcionPersonajesEvolucionados = listadoPersonajesObservables
+            .pipe(map(usuario => usuario.velocidad * 2))
+            .subscribe(dobleDeVelocidad => console.log('Velocidad doble: ', dobleDeVelocidad));
+    #+END_SRC
+** Referencias
+*** Referencias Oficiales
+    1. [[https://reactivex.io/intro.html][ReactiveX (reactivex.io)]]
+    2. [[https://reactivex.io/documentation/operators.html][Operators (reactivex.io)]]
+*** Referencias Extraoficiales
+    1. [[https://thatcsharpguy.com/post/reactiva][La programación reactiva (thatcsharpguy.com)]]

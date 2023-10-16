@@ -1,0 +1,31 @@
+* Books
+** Learn ClojureScript - Functional programming for the web            :cljs:
+  :PROPERTIES:
+  :STATUS: reading
+  :LEVEL: normal
+  :LANGUAGE: english
+  :RATING: 10/10
+  :URL: (https://blog.devz.mx/clojurescript-sin-atajos-fase-1/)
+  :AUTHOR: Andrew Meredith
+  :YEAR-PUBLICATION: 2021
+  :PAGES: 396
+  :ISBN-13: 978-1736717202
+  :END:
+*** TODO Group Chat                                                :exercise:
+  :PROPERTIES:
+  :CHAPTER: 4
+  :LEVEL: difficult
+  :RATING: 10/10
+  :END:
+*** TODO Intro to core async                                     :core_async:
+  :PROPERTIES:
+  :CHAPTER: 4
+  :LEVEL: difficult
+  :RATING: 10/10
+  :END:
+*** TODO Handling Exceptions and errors                   :exceptions:errors:
+  :PROPERTIES:
+  :CHAPTER: 4
+  :LEVEL: normal
+  :RATING: 10/10
+  :END:

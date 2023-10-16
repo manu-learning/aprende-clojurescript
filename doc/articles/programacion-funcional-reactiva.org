@@ -1,0 +1,33 @@
+* (FRP) Programación Funcional Reactiva :frp:programacion_funcional_reactiva:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-16 Mon>
+   :DATE-UPDATED: <2023-10-16 Mon>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Conceptos
+  - La (FRP) *Programación Funcional Reactiva* es una combinación entre
+    1) la (FP) Programación Funcional pura
+    2) la (RP) Programación Reactiva
+  - Es común en aplicaciones web que interactúan con el usuario porque
+    1) si utilizamos un modelo con (FP) Programación Funcional Pura necesitamos algunas operaciones con *side-effects* (funciones impuras)
+    2) necesitamos operaciones con *side-effects* que modifiquen *elementos UI* del *DOM* (documento html)
+
+  #+BEGIN_QUOTE
+  Es útil en aplicaciones web modernas que tiene un alto nivel de interacción con
+  *ocurrencias de eventos UI* (UI Event) relacionados con *ocurrencias de eventos de datos* (Data Event ó Data Stream)
+
+  Un ejemplo es cuando hacemos click a *Like* a la aplicación de Facebook
+  #+END_QUOTE
+** TODO Ejemplos
+   #+BEGIN_COMMENT
+   faltaría definir ejemplos
+   #+END_COMMENT
+** Referencias
+*** Referencias Oficiales
+    1. [[https://cljdoc.org/d/frp/frp/0.1.3/doc/the-introduction-to-functional-reactive-programming-you-ve-been-missing][The introduction to Functional Reactive Programming (cljdoc.org)]]
+*** Referencias Extraoficiales
+    1. [[https://blog.danlew.net/2017/07/27/an-introduction-to-functional-reactive-programming/][An introduction to functional reactive programming (blog.danlew.net)]]
+    2. [[https://medium.com/android-news/how-to-wrap-your-imperative-brain-around-functional-reactive-programming-in-rxjava-91ac89a4eccf][Functional reactive programming in RxJava (medium.com/android-news)]]
