@@ -1,0 +1,212 @@
+* Core Data Types                                         :core:data_types:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-17 Tue>
+   :DATE-UPDATED: <2023-10-17 Tue>
+   :BOOK: nil
+   :BOOK-CHAPTERS: 0
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Intro
+   #+BEGIN_QUOTE
+   - Tipos de Datos escalares: number, string, boolean, keyword, symbol
+   - Tipos de datos de colección: list, vector, map, set
+   - Valor vacío: nil
+   #+END_QUOTE
+** Tipos de datos comunes
+#+BEGIN_SRC clojure
+  ;; Number
+  ;;
+  ;; - números enteros ó números de punto flotante
+  11.1
+
+
+  ;; String
+  "Hoy volvemos a aprender"
+
+  ;; Character
+  \a
+** Tipos de datos específicos en ClojureScript
+#+BEGIN_SRC clojure
+  ;; Keyword
+  ;;
+  ;; - identificadores
+  :role
+
+  ;; Symbol
+  ;;
+  ;; - identificadores
+  'cljs-is-awesome
+
+  ;; List
+  ;;
+  ;; - colección ordenada
+  '(1 3 5 7 9)
+
+  ;; Vector (éste es común, pero lo dejamos acá para diferenciar de List & Map)
+  ;;
+  ;; - colección ordenada
+  ;; - acceso por índice/posición
+  [0 2 4 6 8]
+
+  ;; Map
+  ;
+  ;; - colección sin un orden concreto
+  ;; - asocia claves únicas con valores
+  ;; - las comas son opcionales
+  {:nombre "William",
+   :edad 29,
+   :origen "España"}
+
+  ;; Set
+  ;;
+  ;; - colección sin un orden concreto
+  ;; - contiene elementos únicos, sin repetir
+  #{true "Altura" 9.2}
+
+  ;; Valor Vacío
+  nil
+
+  ;; Object
+  ;;
+  ;; - objeto de JavaScript
+  ;; - utilizado para "interoperar" entre ClojureScript y JavaScript
+  #js {"esJs" true,
+       "esInmutable" false}
+
+  ;; Array
+  ;;
+  ;; - arreglo de JavaScript
+  ;; - utilizado para "interoperar" entre ClojureScript y JavaScript
+  #js ["leones" "tigres" "ositos"]
+#+END_sRC
+** Números
+#+BEGIN_SRC clojure
+  ;; entero decimal
+  32
+
+  ;; entero octal, porque empieza con cero
+  012
+
+  ;; entero hexadecimal, empieza con 0x
+  0xbeeef
+
+  ;; número flotante
+  0.6
+
+  ;; número flotante con exponente
+  1.82e3
+
+  ;; número flotante con signo y exponente
+  -0.12e4
+#+END_SRC
+** Strings
+#+BEGIN_SRC clojure
+  ;; simple string
+  "Una simple cadena de caracteres"
+
+  ;; un caracter, utilizamos el backslash
+  \a
+
+  ;; string con caracteres especiales
+  "Columna 1\tColumna 2\tColumna3"
+
+  ;; string con multiples lineas
+  "renglon
+  otro renglon"
+#+END_SRC
+** Keywords
+#+BEGIN_SRC clojure
+  ;; una simple keyword
+  :una-keyword
+
+  ;; - una keyword con un "Espacio de nombres" implícito
+  ;; - ésta es una forma abreviada de :cljs.user/namespaced-keyword
+  ::namespaced-keyword
+
+  ;; - una keyword con un "Espacio de nombres" explícito
+  ;; - lo opuesto al ejemplo anterio, se podría haber abreviado con ::
+  :explicit-ns/keyword
+
+  ;; - keywords utilizadas como claves (keys) "asociadas a un valor" en "una estructura Map"
+  {:nombre "carlitos",
+   :type "administrador"}
+
+  ;; - keyword como una función
+  ;; - "obtiene el valor asociado a una clave" de "una estructura Map"
+  (:nombre user)
+  (:type user)
+#+END_SRC
+** Símbolos
+#+BEGIN_SRC clojure
+  ;; símbolo que hace referencia a una variable definida por el usuario
+  mi-funcion
+
+  ;; símbolo que hace referencia a una función built-in
+  first
+#+END_SRC
+** Listas
+#+BEGIN_SRC clojure
+  ;; - una lista vacía, sin elementos
+  '()
+
+  ;; - una lista que es "interpretada como una expresión" y además es evaluada
+  ;; - al ser evaluada
+  ;;
+  ;;   - el "primer elemento" de la lista es el "nombre de la función" a invocar/llamar (Ej. +)
+  ;;   - los "siguientes elementos" son los "parámetros de la función" a invocar (Ej. 1 2 3 4)
+  ;;   - el resultado será la suma de todos los números
+  (+ 1 2 3 4)
+
+  ;; - una lista que "NO es evaluada", a causa de "empezar con un apóstrofe"
+  ;; - el resultado es una lista con 5 elementos (es decir no interpreta al + como una función)
+  '(+ 1 2 3 4)
+
+  ;; - una lista puede contener cualquier "tipo de dato" de ClojureScript
+  '(animal humano planta)
+#+END_SRC
+** Vectores
+#+BEGIN_SRC clojure
+  ;; un vector vacío, sin elementos
+  []
+
+  ;; - un vector con "una colección de strings"
+  ["Pedrito" "Manzana" "Pera"]
+
+  ;; - un vector para declarar una "lista de argumentos de una función"
+  (defn saludar [nombre]
+    (println "Hola, " nombre))
+#+END_SRC
+** Maps
+#+BEGIN_SRC clojure
+  ;; una estructura map vacía, sin elementos
+  {}
+
+  ;; una estructura map utilizando "strings como claves" (keys)
+  {"producto" "Aceite"
+   "código" "DS9-B091"
+   "precio" 500
+   "stock" 2}
+
+  ;; una estructura map utilizando "keywords como claves" (keys)
+  {:nombre "Carlitos",
+   :edad 19}
+
+  ;; - estructura map con keywords, con "espacios en blanco" en vez de comas
+  ;; - en ClojureScript el "espacio en blanco" es lo mismo que la coma,
+  ;; por tanto "las comas se pueden omitir"
+  {:nombre "Pepito"
+   :edad 13}
+#+END_SRC
+** Sets
+#+BEGIN_SRC clojure
+  ;; un Set (conjunto) vacío, sin elementos
+  #{}
+
+  ;; un Set (conjunto) con varios strings únicos, sin repetir
+  #{"manzana" "pera" "banana" "sandía"}
+
+  ;; a modo de prueba, al evaluar éste Set, el compilador lanzará un excepción
+  ;; porque repetimos el último elemento
+  #{"manzana" "pera" "banana" "sandía" "sandía"}
+#+END_SRC

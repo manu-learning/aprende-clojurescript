@@ -11,6 +11,36 @@
   :PAGES: 396
   :ISBN-13: 978-1736717202
   :END:
+*** IN PROGRESS Why ClojureScript Matters
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** A first look
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** ClojureScript in the JavaScript Ecosystem
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** Building Blocks
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** IN PROGRESS Expressions and Evaluation
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
 *** TODO Group Chat                                                :exercise:
   :PROPERTIES:
   :CHAPTER: 4
