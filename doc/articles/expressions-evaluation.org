@@ -1,0 +1,49 @@
+* Expressions and Evaluation                  :sexp:expressions:evaluation:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-18 Wed>
+   :DATE-UPDATED: <2023-10-18 Wed>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Symbol Expressions (S-Expressions, sexp)
+#+BEGIN_SRC clojure
+  ;; - una s-expression primitiva
+  ;; - ej. número entero, string, boolean, ..
+  5
+
+  ;; - nombre de una función
+  ;; - la función suma
+  +
+
+  ;; - una s-expression vacía
+  ()
+
+  ;; - una s-expression que contiene a otras s-expressions simples
+  (+ 5 5)
+
+  ;; - las s-expressions pueden anidarse, pueden contener a varias s-expressions
+  (take 5 (range))
+
+  ;; - las s-expressions pueden anidarse, pueden contener a varias s-expressions
+  (map inc
+       (take 5 (range)))
+
+  ;; que una s-expression sea sintáticamente válida, no garantiza que se pueda ejecutar
+  ;; (en este ejemplo la función mk-sanwich no está definida)
+  (mk-sanwich "Bacon" "Lettuce" "Tomate")
+#+END_SRC
+** Toda S-Expression tiene un valor
+#+BEGIN_SRC clojure
+  ;; devolverá #'user/x
+  (def x 5)
+
+  ;; devolverá el string "Even"
+  (if (even? 10) "Even" "Odd")
+
+  ;; - imprime 5 veces el string "loop!"
+  ;; - al finalizar de evaluar, devuelve el valor vacío osea nil
+  (doseq [i (range 5)]
+    (println "Loop..!"))
+#+END_SRC
