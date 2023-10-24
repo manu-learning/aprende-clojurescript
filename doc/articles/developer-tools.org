@@ -7,6 +7,107 @@
    :COURSE: nil
    :COURSE-LESSONS: nil
    :END:
-** Referencias
+** clj
+*** Conceptos
+  - ejecutamos la herramienta desde la *linea de comandos* con ~clj~
+  - gestiona las dependencias de un proyecto
+  - compila/testea un proyecto
+*** Función clj-new/create (Scaffolding Tool)
+  - la invocamos vía *linea de comandos* mediante ~clj -X:project/new~
+  - crea un proyecto en base a una plantilla
+    - Ej. la plantilla de ~figwheel~ con todas sus características
+*** Ejemplo
+  #+BEGIN_SRC shell
+    clj \
+        --main cljs.main \
+        --compile my-cljs-project.core \
+        --repl
+    #
+    # descripción de parámetros utilizados
+    # ====================================
+    #
+    # --main nombre-namespace
+    # ------------------------
+    # - llama a una función principal de un "espacio de nombres"
+    # - en éste ejemplo invoca a cljs.main asociado a una dependencia del deps.edn
+    # que referencia al compilador ClojureScript, por ende éste se descargará
+    #
+    # (DEPRECADO) --compile my-cljs-project.core
+    # -------------------------------------------
+    # especificamos el espacio de nombres del proyecto,
+    # el que agregamos al comienzo de nuestro archivo .cljs
+    #
+    # --repl
+    # ------
+    # 1) inicia un Servidor Web apuntando al index.html del proyecto
+    # 2) compila el proyecto clojurescript en javascript
+    # 3) inicia una REPL, que es un intérprete interactivo
+  #+END_SRC
+** deps.edn
+*** Conceptos
+  - la extensión ~.edn~ refiere al formato *Extensible Data Notation*
+  - especificamos una lita de dependencias del proyecto
+  - se agrega en el directorio raíz del proyecto
+  - similar al ~package.json~ de JavaScript
+*** Ejemplo Básico
+  #+BEGIN_QUOTE
+  - en ~{:deps }~ agregamos las dependencias del proyecto
+  - en ~:paths []~ agregamos en el vector
+    - la ruta del código fuente de clojurescript a compilar
+    - la ruta de los tests
+  #+END_QUOTE
+
+  #+BEGIN_SRC clojure
+    {:deps
+     {org.clojure/clojurescript {:mvn/version "1.10.773"}}
+     :paths ["src"]}
+  #+END_SRC
+*** Ejemplo con alias
+  #+BEGIN_QUOTE
+  el parámetro ~--compile~ de ~clj~ quedó deprecado
+  #+END_QUOTE
+
+  #+BEGIN_SRC shell
+    # - en la "linea de comandos" ejecutamos clj con el parámetro -M
+    # - el parámetro -M ejecuta alias (en éste ejemplo dev, el que definimos en el deps.edn)
+    clj -M:dev
+  #+END_SRC
+
+  #+BEGIN_SRC clojure
+    {:deps
+     {org.clojure/clojurescript {:mvn/version "1.10.773"}}
+     :paths ["src"]
+     :aliases
+     {:dev {:main-opts ["--main" "cljs.main"
+                        "--compile" "my-cljs-project.core"
+                        "--repl"]}}
+     }
+  #+END_SRC
+** Figwheel                                              :tool:figwheel:cljs:
+*** Conceptos
+   - ~figwheel~ establece una conexión Cliente-Servidor entre la *REPL de Clojurescript* (servidor) y el *Browser* (cliente)
+   - Cuando escribimos expresiones en la *REPL de Clojurescript* es ~figwheel~ la herramienta que invoca al *Compilador de ClojureScript*
+
+   #+BEGIN_QUOTE
+   ~figwheel~ gestiona la interacción Cliente-Servidor entre la REPL de Clojurescript (servidor) y el Browser (Cliente)
+
+   1. ~figwheel~ (server, en la REPL) abre el Browser (/que tiene integrado un figwheel cliente, un script en javascript/)
+   2. ~figwheel~ (server, en la REPL) invoca al compilador de clojurescript para que evalúe y compile las expresiones a javascript
+   3. ~figwheel~ (server, en la REPL) envía el código javascript al browser (figwheel client)
+   4. ~figwheel~ (client, en el Browser) recibe el código javascript, lo evalúa y devuelve el resultado a la REPL (figwheel server)
+   5. ~figwheel~ (server, en la REPL) recibe el resultado y lo imprime en la ~REPL de Clojurescript~
+   #+END_QUOTE
+*** Manejo de Errores de Compilación
+   #+BEGIN_QUOTE
+   Si el código javascript compilado por el compilador de Clojurescript tiene algún error
+   1. el ~figwheel~ (client, corre en el Browser) NO ejecuta el código
+   2. el ~figwheel~ (client, corre en el Browser) devuelve la excepción al ~figwheel~ (server, corre en la REPL de ClojureScript)
+
+   Es decir no se ejecuta código javascript con errores en ambiente web del Browser,
+   esta característica garantiza un estado consistente de la aplicación libre de errores
+   #+END_QUOTE
+*** Referencias
+   1. [[https://figwheel.org/][Figwheel-main (figwheel.org)]]
+* Referencias
   1. [[https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html][New react developer tools (reactjs.org)]]
   2. [[https://practical.li/clojurescript/install/browser-devtools.html][Browser DevTools (practical.li)]]
