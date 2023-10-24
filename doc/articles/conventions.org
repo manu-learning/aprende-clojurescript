@@ -1,0 +1,35 @@
+* Conventions                                                  :convention:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-10-24 Tue>
+   :DATE-UPDATED: <2023-10-24 Tue>
+   :BOOK: nil
+   :BOOK-CHAPTERS: nil
+   :COURSE: nil
+   :COURSE-LESSONS: nil
+   :END:
+** Nombre de Directorios y Namespaces
+*** Espacio de nombres (Namespaces)
+  - representado por
+    - nombre de la organización propietaria del código
+    - nombre de usuario del desarrollador (Ej. de github)
+  - cada proyecto tiene su propio *espacio de nombres*
+  - es un conjunto de datos y funciones
+  - es la unidad de modularidad en ClojureScript
+
+  #+BEGIN_EXAMPLE
+  Espacio de nombres: learn-cljs
+  Nombre de proyecto: weather
+
+  learn-cljs/weather
+  #+END_EXAMPLE
+*** Directorios
+  - al crearlos, las palabras de su nombre deben estar separadas por el caracter ~_~ (guión bajo)
+  - al referenciarlos dentro de un archivo ~.cljs~ debemos reemplazar el ~_~ por ~-~ (guión medio)
+*** Ejemplo
+  #+BEGIN_EXAMPLE
+  Espacio de nombres: learn_cljs (será el nombre de directorio)
+  Nombre de proyecto: weather (será el nombre del archivo .cljs)
+
+  ej. de la rúta física..: learn_cljs/weather.cljs
+  ej. dentro de weather.cljs..: (ns learn-cljs.weather ..)
+  #+END_EXAMPLE
