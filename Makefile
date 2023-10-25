@@ -1,3 +1,4 @@
+include config.cfg
 include utils.mk
 include building.mk
 include helper.mk
