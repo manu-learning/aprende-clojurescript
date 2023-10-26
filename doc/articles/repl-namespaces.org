@@ -9,8 +9,12 @@
    :END:
 ** REPL (Read-Eval-Print Loop)
 *** Conceptos
-   - Una ~REPL~ es una herramienta que (Lee expr) -> (Evalúa exp) -> (Imprime resultado) -> (se repite el ciclo lee->..)
    - Si a la ~REPL~ le cargamos un namespace, tendremos acceso a todas las funciones/variables definidas en ese namespace
+   - Una ~REPL~ es una herramienta que
+     1. (Read) Lee cada expresión de ClojureScript que escribamos en la prompt de la linea de comandos
+     2. (Evaluate) Evalúa cada expresión (compilando ClojureScript a JavaScript, y lo envía al Web Browser para que evalúe el código javascript)
+     3. (Print) Imprime resultado (en la linea de comandos, el resultado devuelto por el Web Browser)
+     4. Repite el ciclo: LEE -> EVALUA -> IMPRIME -> ...
 
    #+BEGIN_QUOTE
    Una REPL es un ambiente (environment) cuando le asociamos un ~namespace~, por ejemplo
@@ -18,13 +22,16 @@
    - Si a la REPL le cargamos el namespace ~proyecto.locura~ estamos en el *ambiente dev* de la aplicación
    #+END_QUOTE
 *** Proceso de una REPL
-    1. espera una entrada/expresión para leer (read)
-    2. evalúa la expresión escrita
-    3. luego de evaluada la imprime
-    4. y se repite el ciclo lee->evalúa->imprime
+    1. espera una entrada/expresión del usuario para leer
+    2. lee y evalúa la expresión escrita
+    3. imprime el resultado de evaluar la expresión
+    4. repite el ciclo lee -> evalúa -> imprime -> ...
 *** Proceso de una REPL de ClojureScript
   #+BEGIN_QUOTE
-  Con clojurescript, la REPL depende del Browser porque sólo él evaluará las expresiones
+  La REPL de ClojureScript depende completamente del Web Browser,
+  porque la REPL sólo lee las expresiones y se las envía al Web Browser para que las evalúe..
+
+  Por tanto si cerramos el Navegador Web, entonces NO se podrán evaluar las expresiones escritas en la REPL de ClojureScript
   #+END_QUOTE
 
     1. La REPL espera una expresión
@@ -44,6 +51,18 @@
 ** Namespaces (Espacios de nombres)
 *** Conceptos
    - En clojurescript un ~namespace~ agrupa funciones y datos
+   - Cada namespace tiene sus propias definiciones de funciones, declaraciones de variables, ..
+*** Analogía con Directorios/Archivos
+   #+BEGIN_QUOTE
+   Podemos pensar que un *namespace* es un directorio/carpeta,
+   y que los archivos dentro de éste son las *variables* y *funciones*
+
+   Si cambiamos de directorio accederemos a otros archivos,
+   lo mismo ocurre con los namespaces pero accederemos a otras funciones/variables
+
+   el comando de Unix ~cd~ nos permite acceder a distintos directorios,
+   mientras que en la *REPL de ClojureScript* la función ~(in-ns)~ nos permite cambiar de namespace
+   #+END_QUOTE
 *** Relación con la REPL
    - En la ~REPL~ de clojurescript, el namespace cargado por defecto es ~cljs.user~
    - La ~REPL~ devuelve ~nil~ cuando evalúa expresiones que no tienen vinculados algún valor (Ej. al evaluar la función println)
@@ -51,7 +70,8 @@
    - El namespace ~cljs.user~ representa el namespace de la aplicación en ejecución en el Browser
    - Se crea/carga en la REPL de ClojureScript cuando se establece la conexión con el Browser
 *** Cambiar de Namespace
-   - Con la función ~in-ns~ podemos cambiar entre namespaces
+   - Con la función ~in-ns~ (desde la REPL, vía linea de comandos) podemos cambiar entre namespaces
+   - Al cambiar de namespace, en la REPL de ClojureScript podemos acceder a las funciones y variables sólo de ese namespace en particular
 
    #+BEGIN_SRC clojurescript
      ;; en la REPL...
