@@ -55,7 +55,21 @@ CLOSED: [2023-10-24 Tue 16:12]
   :LEVEL: easy
   :RATING: 6/10
   :END:
-**** IN PROGRESS Receiving Rapid Feedback with Figwheel
+**** DONE Receiving Rapid Feedback with Figwheel
+CLOSED: [2023-10-26 Thu 01:41]
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** DONE REPL CRash Course
+CLOSED: [2023-10-26 Thu 01:41]
+  :PROPERTIES:
+  :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** IN PROGRESS Capstone 1 - Weather Forecasting App
   :PROPERTIES:
   :CHAPTER: 0
   :LEVEL: easy
