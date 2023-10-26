@@ -19,13 +19,38 @@
  útil si hacemos pequeños cambios
  Ej. validaciones en un formulario y no queremos volver a completarlo todo de nuevo
  #+END_QUOTE
-** Funciones idempotentes
-   - son funciones que tienen el mismo efecto sin importar las veces que sean llamadas
+** Funciones NO Idempotentes
+*** Conceptos
+   - tienen un resultado diferente cada vez que son llamadas/invocadas
+   - usar con CUIDADO si trabajamos con *Live Reloading* (Ej. agregaría elementos en el DOM infinitas veces, colgando el navegador)
+*** Ejemplo
+   #+BEGIN_SRC clojure
+     (defn append-element [parent child]
+       (.appendChild parent child))
+   #+END_SRC
+** Funciones Idempotentes
+*** Conceptos
+   - tienen el mismo efecto/resultado sin importar las veces que sean llamadas/invocadas
+   - necesarias si trabajamos con *Live Reloading* (ej. con cada cambio del código fuente _se actualiza en tiempo real el navegador_)
 
    #+BEGIN_QUOTE
-   una función idempotente sería una que modifica un atributo
+   Por ejemplo una *función idempotente* sería una que _modifique un atributo_
 
-   una función que NO es idempotente, es aquella que inserta varios elemento-hijo en un elemento-padre,
-   sin verificar si éste ya se introdujo (una previa validación si existe el elemento-hijo la haría idempotente)
+   Mientras que una *función que NO es idempotente* se comportaría así
+   1) _agrega varios elemento-hijo en un elemento-padre_,
+   2) NO verifica si éste elemento-hijo ya existía en el elemento-padre.
+
+   Pero..! una *función que NO es idempotente* puede convertirse en una *función idempotente* si..
+   1) _agrega varios elemento-hijo en un elemento-padre_
+   2) previo a agregar un elemento, VERIFICA si existe el elemento-hijo en el elemento-padre
    #+END_QUOTE
+*** Ejemplo
+   #+BEGIN_SRC clojure
+     (defn append-element [parent child]
+       (when-not (.contains parent child)
+         (.appendChild parent child)))
+
+     (defn my-set-content [element content]
+       (set! (.-innerHTML element) content))
+   #+END_SRC
 ** TODO Separar Lógica de Negocio/Lógica Renderizado
