@@ -8,8 +8,8 @@ create-operaciones-asincronicas: ## clojure.core.async
 # macro automática $@
 # - nos anticipamos si luego cambiamos el target
 .PHONY: app-weather-app app-trello-app
-app-weather-app: ##
-ifeq ("$(wildcard $(DIR_PROJECTS)/weather-app)", "")
+app-weather: ##
+ifeq ("$(wildcard $(DIR_PROJECTS)/weather)", "")
 	$(call figwheel-create-project,$@)
 #	$(call figwheel-create-project,weather-app)
 else
