@@ -57,6 +57,9 @@
   [:div {:class "w-full max-w-screen-sm bg-white p-10 rounded-x1 ring-8 ring-white ring-opactity-40"}
    [:div "temperatura"]])
 
+;; TODO: problemas de declaración con la función get-forecast! el compilador indica que  NO está declarada..
+;; si colocamos ésta función debajo de get-forecast!, el compilador marcará problemas en (defn app) que NO está declarada buscador-de-ciudad
+;; (en resumen, debemos definir las funciones en orden ó ver si sólo podemos declararlas y luego definirles el cuerpo)
 (defn buscador-de-ciudad []
   [:div {:class "buscador-ciudad"}
    [:input {:type "text"
@@ -65,7 +68,6 @@
    [:button {:on-click get-forecast!
              :class "border-2 border-teal-800 rounded-lg p-2 text-xl text-center transition ease-in-out delay-150 active:scale-95 bg-gradient-to-r from-emerald-500 to-teal-500 drop-shadow-md hover:drop-shadow-2xl"}
     "Mostrar Clima"]])
-
 ;;{:on-click get-forecast!} "Ir"
 
 ;; - XPath: //div[@class='postal-code'][h3|input|button]
@@ -141,6 +143,8 @@
 ;;   - utilizamos la función (swap! ..) porque la variable app-state "guarda la referencia" a un "tipo de dato Atom"
 ;;
 ;;   - con la función (update-in ..) "modificamos la estructura map anidada", y devuelve una "nueva estructura map"
+;;
+;; TODO: si se dejó de utilizar por handle-temperatures, envolver con (comment ..)
 (defn handle-response [resp]
   (let [today (get-in resp ["list" 0 "main" "temp"])
         tomorrow (get-in resp ["list" 8 "main" "temp"])]
@@ -149,7 +153,7 @@
     (swap! app-state
            update-in [:temperatures :tomorrow :value] (constantly tomorrow))))
 
-;; TODO: falta lógica
+;; TODO: falta la lógica
 (defn es-hoy? [dia]
   true)
 
