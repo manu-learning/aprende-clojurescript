@@ -42,7 +42,8 @@ CLOSED: [2023-10-18 Wed 12:53]
   :LEVEL: easy
   :RATING: 6/10
   :END:
-*** IN PROGRESS Tools of the Trade
+*** DONE Tools of the Trade
+CLOSED: [2023-11-01 Wed 13:41]
   :PROPERTIES:
   :CHAPTER: 1
   :LEVEL: easy
@@ -69,9 +70,22 @@ CLOSED: [2023-10-26 Thu 01:41]
   :LEVEL: easy
   :RATING: 6/10
   :END:
-**** IN PROGRESS Capstone 1 - Weather Forecasting App
+**** DONE Capstone 1 - Weather Forecasting App
+CLOSED: [2023-11-01 Wed 13:41]
   :PROPERTIES:
   :CHAPTER: 0
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+*** Basic ClojureScript                                             :basic:
+  :PROPERTIES:
+  :CHAPTER: 2
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** IN PROGRESS Using Variables an Values
+  :PROPERTIES:
+  :CHAPTER: 2
   :LEVEL: easy
   :RATING: 6/10
   :END:
