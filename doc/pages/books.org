@@ -63,7 +63,7 @@ CLOSED: [2023-10-26 Thu 01:41]
   :LEVEL: easy
   :RATING: 6/10
   :END:
-**** DONE REPL CRash Course
+**** DONE REPL Crash Course
 CLOSED: [2023-10-26 Thu 01:41]
   :PROPERTIES:
   :CHAPTER: 0
@@ -77,13 +77,20 @@ CLOSED: [2023-11-01 Wed 13:41]
   :LEVEL: easy
   :RATING: 6/10
   :END:
-*** Basic ClojureScript                                             :basic:
+*** IN PROGRESS Basic ClojureScript                                   :basic:
   :PROPERTIES:
   :CHAPTER: 2
   :LEVEL: easy
   :RATING: 6/10
   :END:
-**** IN PROGRESS Using Variables an Values
+**** DONE Using Variables an Values
+CLOSED: [2023-11-07 Tue 17:34]
+  :PROPERTIES:
+  :CHAPTER: 2
+  :LEVEL: easy
+  :RATING: 6/10
+  :END:
+**** IN PROGRESS Making Choices - Applying if and when
   :PROPERTIES:
   :CHAPTER: 2
   :LEVEL: easy
