@@ -1,4 +1,17 @@
 * Tasks
+** TODO [#A] (pprint) Pretty Printer           :namespace:data_visualization:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+**** Referencias Oficiales
+1. https://clojuredocs.org/clojure.pprint/pprint
+2. https://clojure.github.io/clojure/branch-master/doc/clojure/pprint/PrettyPrinting.html
+3. https://clojure.org/guides/repl/data_visualization_at_the_repl#_pretty_printing_using_clojure_pprint
+4. https://clojure.github.io/clojure/clojure.pprint-api.html#clojure.pprint/pp
+5. https://clojure.github.io/clojure/clojure.pprint-api.html#clojure.pprint/print-table
+
 ** TODO [#A] Configuración Cider Emacs Cljs                      :cider:cljs:
    :PROPERTIES:
    :DATE-CREATED: <2023-10-16 Mon>
@@ -140,13 +153,13 @@
    :END:
 
   1. https://www.tadam-framework.dev/#main
-** ReduxJS                                                       :js:redux:
+** SOMEDAY ReduxJS                                                 :js:redux:
    :PROPERTIES:
    :DATE-CREATED: <2023-10-16 Mon>
    :DATE-UPDATED: <2023-10-16 Mon>
    :END:
    1. https://es.redux.js.org/
-** Agregar Libros
+** TODO Agregar Libros
    :PROPERTIES:
    :DATE-CREATED: <2023-10-16 Mon>
    :DATE-UPDATED: <2023-10-16 Mon>
@@ -163,9 +176,9 @@
    :DATE-CREATED: <2023-10-16 Mon>
    :DATE-UPDATED: <2023-10-16 Mon>
    :END:
-
+   
   1. https://www.youtube.com/watch?v=MQmdWSh2FG4&ab_channel=BetweenTwoParens
-** Agregar Bibliotecas y Frameworks
+** TODO Agregar Bibliotecas y Frameworks
    :PROPERTIES:
    :DATE-CREATED: <2023-10-16 Mon>
    :DATE-UPDATED: <2023-10-16 Mon>
@@ -174,3 +187,69 @@
    1. [[https://reagent-project.github.io/][Reagent, minimalistic react for clojurescript]]
    2. [[https://github.com/slagyr/speclj][Speclj, TDD/BDD framework for clojure]]
    3. [[https://github.com/hantuzun/awesome-clojurescript][List of Clojurescript frameworks, libraries and wrappers]]
+** TODO Clojure Style Guide                                   :clojure_style:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+   #+BEGIN_COMMENT
+   poner sólo lo más interesante
+   #+END_COMMENT
+   https://github.com/bbatsov/clojure-style-guide
+** TODO Rich Comment Blocks                                   :comment_block:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+   https://practical.li/clojure/introduction/repl-workflow/#rich-comment-blocks-living-documentation
+** TODO Clojure Spec                                                   :spec:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+1. https://practical.li/clojure/introduction/repl-workflow/#data-and-function-specifications
+2. https://practical.li/clojure/clojure-spec/
+3. https://www.pixelated-noise.com/blog/2020/09/10/what-spec-is/
+** TODO Test Runners                                    :testing:test_runner:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+1. https://practical.li/clojure/testing/test-runners/
+2. https://practical.li/clojure/testing/test-runners/kaocha-test-runner/
+3. https://github.com/lambdaisland/kaocha
+** TODO Testing                                                     :testing:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+1. https://practical.li/clojure/testing/unit-testing/#run-tests-in-editor-connected-repl
+2. https://clojure.github.io/clojure/clojure.test-api.html
+** TODO Data Inspector Portal                                     :inspector:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+**** Referencias Oficiales
+1. https://cljdoc.org/d/djblue/portal/0.37.1/doc/editors/emacs
+2. https://cljdoc.org/d/djblue/portal/0.37.1/doc/guides/custom-viewer
+**** Referencias Extra-Oficiales
+1. https://practical.li/clojure/data-inspector/portal/
+**** Videoconferencias
+1. https://www.youtube.com/watch?v=NO9D3LSS4WU
+** TODO Clojure Inspector                                     :inspector:gui:
+   :PROPERTIES:
+   :DATE-CREATED: <2023-11-21 Tue>
+   :DATE-UPDATED: <2023-11-21 Tue>
+   :END:
+*** Referencias
+**** Referencias Oficiales
+1. https://clojure.org/guides/repl/data_visualization_at_the_repl#_graphical_and_web_based_visualizations
+**** Referencias Extra-Oficiales
+1. https://practical.li/clojure/data-inspector/clojure-inspector/
