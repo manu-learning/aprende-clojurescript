@@ -1,0 +1,11 @@
+* Conferences / Talks
+** Birdsong as code                                         :clojure:music:
+  :PROPERTIES:
+  :LEVEL: normal
+  :LANGUAGE: english
+  :RATING: 10/10
+  :URL: https://www.youtube.com/watch?v=OCYU0LtqRH0
+  :AUTHOR: Chris Ford
+  :DURATION: 30-60 minutes
+  :YEAR-PUBLICATION: 2023
+  :END:
